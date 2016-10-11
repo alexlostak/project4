@@ -1,0 +1,8 @@
+Stages for Project Completion
+
+Stage One
+Critter Collection
+Time Steps
+Walk Function
+View Component
+Controller Component: quit, show, step
