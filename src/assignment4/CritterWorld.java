@@ -1,7 +1,7 @@
 package assignment4;
 import java.util.*;
 
-public class CritterWorld {
+public class CritterWorld {			// HOW DO I MAKE THIS WORK??????????????
 	
 	Set<Critter> myCritters = new HashSet<Critter>();
 	int population = 0;
@@ -21,14 +21,15 @@ public class CritterWorld {
 		population -= 1;
 	}
 
-	public ArrayList<Critter> findEncounters(){
+	/*public ArrayList<Critter> findEncounters(){
 		
 		for(int x = 0; x < Params.world_width; x += 1){
 			for(int y = 0; y < Params.world_height; y += 1){
 				Iterator<Critter> myIt = myCritters.iterator();
 				while(myIt.hasNext()){
-					Critter c = myIt.next();
-					//c.get			//GETTERS & SETTERS
+					Critter thisCritter = myIt.next();
+					int thisX = thisCritter.getX_coord();
+					
 					//if(c.x_coord == x && c.y_coord){
 						
 					//}
@@ -40,6 +41,6 @@ public class CritterWorld {
 		
 		
 		return null;
-	}
+	}*/
 	
 }

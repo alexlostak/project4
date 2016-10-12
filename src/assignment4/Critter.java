@@ -12,7 +12,11 @@
  */
 package assignment4;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 /* see the PDF for descriptions of the methods and fields in this class
  * you may add fields, methods or inner classes to Critter ONLY if you make your additions private
@@ -24,6 +28,9 @@ public abstract class Critter {
 	private static String myPackage;
 	private	static List<Critter> population = new java.util.ArrayList<Critter>();
 	private static List<Critter> babies = new java.util.ArrayList<Critter>();
+	//
+	private static CritterWorld myWorld = new CritterWorld();		// Would this be correct implementation of our unique world?
+	//
 
 	// Gets the package name.  This assumes that Critter and its subclasses are all in the same package.
 	static {
@@ -31,7 +38,7 @@ public abstract class Critter {
 	}
 	
 	private static java.util.Random rand = new java.util.Random();
-	public static int getRandomInt(int max) {
+	public static int getRandomInt(int max) {						
 		return rand.nextInt(max);
 	}
 	
@@ -73,7 +80,27 @@ public abstract class Critter {
 	 * @throws InvalidCritterException
 	 */
 	public static void makeCritter(String critter_class_name) throws InvalidCritterException {
+		// Use Class.forName() and newInstance (which I think would be Class.newInstance()
+		
+		try{
+			Class swiggity_swag = Class.forName(critter_class_name);
+			Critter swiggity_swooty = (Critter) swiggity_swag.newInstance();	// Should work; if not a real subclass then will fail in general
+			
+			swiggity_swooty.energy = Params.start_energy;	// Initialize with start energy
+			// Need to set random initial position. Do we need to make that method?
+			
+			myWorld.addCritter(swiggity_swooty);
+				
+		
+		} catch (Exception e){		// Not sure if correct; please check this :D
+			throw new InvalidCritterException(critter_class_name);
+			//e.printStackTrace(); 		never reaches this code
+		}
+		
 	}
+	
+	
+	
 	
 	/**
 	 * Gets a list of critters of a specific type.
@@ -173,4 +200,55 @@ public abstract class Critter {
 	}
 	
 	public static void displayWorld() {}
+	
+	
+	// Attempt at creating the encounter implementation but I think adding this class violates the conditions set by the instructor
+	
+/*	
+	abstract class CritterWorld extends TestCritter {			// HOW DO I MAKE THIS WORK??????????????
+		
+		Set<Critter> myCritters = new HashSet<Critter>();
+		int population = 0;
+		
+		public CritterWorld(){
+			//Don't need constructor
+		}
+		
+		//Adds critter to set
+		public void addCritter(Critter c){
+			myCritters.add(c);				//add critter					
+			population += 1;				//increase tag count
+		}
+		
+		public void removeCritter(Critter c){
+			myCritters.remove(c);
+			population -= 1;
+		}
+		
+		 
+		 * 
+		 * The way this system works is by 
+		 * 
+		 * to access the getters and setters for the Critters we have to extend TestCritter AND.... (see below)
+		 
+		public ArrayList<Critter> findEncounters(){
+			
+			ArrayList<Critter> battleList = new ArrayList();	// Our list of critters we need to battle
+			
+			for(int x = 0; x < Params.world_width; x += 1){
+				for(int y = 0; y < Params.world_height; y += 1){
+					Iterator<Critter> myIt = myCritters.iterator();
+					while(myIt.hasNext()){
+						TestCritter thisCritter = (TestCritter)myIt.next();	// ... We have to mask each Critter as a TestCritter to access the x/y coordinates 
+	// -->					// HOPEFULLY by changing the object it doesn't eliminate the parameters we need in the first place lol
+						if(thisCritter.getX_coord() == x && thisCritter.getY_coord() == y){ battleList.add(thisCritter); } //If the critter is at this location add them to the list
+					}
+					battleList.add(null);	// a null specifies we have reached the end of the list of the critters at a specific location.
+				}
+			}
+			return battleList;		// After adding every critter to every specified location we can handle encounters
+		}
+		
+	}
+*/
 }
