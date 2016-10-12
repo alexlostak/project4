@@ -3,20 +3,21 @@ import java.util.*;
 
 public class CritterWorld {			// HOW DO I MAKE THIS WORK??????????????
 	
-	Set<Critter> myCritters = new HashSet<Critter>();
-	int population = 0;
+	private static Set<Critter> myCritters;
+	private static int population;
 	
-	public CritterWorld(){
-		//Don't need constructor
+	
+	public static void makeCritterWorld() {
+		myCritters = new HashSet<Critter>();
+		population = 0;
 	}
-	
 	//Adds critter to set
-	public void addCritter(Critter c){
+	public static void addCritter(Critter c){
 		myCritters.add(c);				//add critter					
 		population += 1;				//increase tag count
 	}
 	
-	public void removeCritter(Critter c){
+	public static void removeCritter(Critter c){
 		myCritters.remove(c);
 		population -= 1;
 	}

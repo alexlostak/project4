@@ -28,9 +28,6 @@ public abstract class Critter {
 	private static String myPackage;
 	private	static List<Critter> population = new java.util.ArrayList<Critter>();
 	private static List<Critter> babies = new java.util.ArrayList<Critter>();
-	//
-	private static CritterWorld myWorld = new CritterWorld();		// Would this be correct implementation of our unique world?
-	//
 
 	// Gets the package name.  This assumes that Critter and its subclasses are all in the same package.
 	static {
@@ -55,7 +52,11 @@ public abstract class Critter {
 	
 	private int x_coord;
 	private int y_coord;
-	
+	private void initializePos() {
+		y_coord = getRandomInt(Params.world_height);
+		x_coord = getRandomInt(Params.world_width);
+		return;
+	}
 	protected final void walk(int direction) {
 		
 	}
@@ -76,29 +77,23 @@ public abstract class Critter {
 	 * an InvalidCritterException must be thrown.
 	 * (Java weirdness: Exception throwing does not work properly if the parameter has lower-case instead of
 	 * upper. For example, if craig is supplied instead of Craig, an error is thrown instead of
-	 * an Exception.)
+	 * an Exception.) //don't need to worry about this
 	 * @param critter_class_name
 	 * @throws InvalidCritterException
 	 */
 	
 	public static void makeCritter(String critter_class_name) throws InvalidCritterException {
 		// Use Class.forName() and newInstance (which I think would be Class.newInstance()
-		
 		try{
-			Class swiggity_swag = Class.forName(critter_class_name);
-			Critter swiggity_swooty = (Critter) swiggity_swag.newInstance();	// Should work; if not a real subclass then will fail in general
-			
-			swiggity_swooty.energy = Params.start_energy;	// Initialize with start energy
-			// Need to set random initial position. Do we need to make that method?
-			
-			myWorld.addCritter(swiggity_swooty);
-				
-		
+			Class className = Class.forName(critter_class_name);
+			Critter newCritter = (Critter) className.newInstance();	// Should work; if not a real subclass then will fail in general
+			newCritter.energy = Params.start_energy;	// Initialize with start energy
+			newCritter.initializePos();
+			CritterWorld.addCritter(newCritter);
 		} catch (Exception e){		// Not sure if correct; please check this :D
 			throw new InvalidCritterException(critter_class_name);
-			//e.printStackTrace(); 		never reaches this code
 		}
-
+		return;
 	}
 	
 	
