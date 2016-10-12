@@ -21,6 +21,10 @@ public class CritterWorld {			// HOW DO I MAKE THIS WORK??????????????
 		myCritters.remove(c);
 		population -= 1;
 	}
+	
+	public static Set getCritterList(){
+		return myCritters;
+	}
 
 	/*public ArrayList<Critter> findEncounters(){
 		

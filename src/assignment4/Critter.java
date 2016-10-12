@@ -194,6 +194,12 @@ public abstract class Critter {
 	}
 	
 	public static void worldTimeStep() {
+		
+		Set critters = CritterWorld.getCritterList();		// Create an array from our current list of Critters
+		Iterator myIt = critters.iterator();				// Iterate through the array, performing doTimeStep() on each critter
+		while ()
+		
+		
 	}
 	
 	public static void displayWorld() {}
