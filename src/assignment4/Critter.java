@@ -50,6 +50,7 @@ public abstract class Critter {
 	private int y_coord;
 	
 	protected final void walk(int direction) {
+		
 	}
 	
 	protected final void run(int direction) {
@@ -72,7 +73,11 @@ public abstract class Critter {
 	 * @param critter_class_name
 	 * @throws InvalidCritterException
 	 */
+	
 	public static void makeCritter(String critter_class_name) throws InvalidCritterException {
+		
+		
+		
 	}
 	
 	/**
