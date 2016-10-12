@@ -195,10 +195,11 @@ public abstract class Critter {
 	
 	public static void worldTimeStep() {
 		
-		Set critters = CritterWorld.getCritterList();		// Create an array from our current list of Critters
-		Iterator myIt = critters.iterator();				// Iterate through the array, performing doTimeStep() on each critter
-		while ()
-		
+		Critter[] critters = CritterWorld.getCritterList();		// Create an array from our current list of Critters
+		for(int i = 0; i < critters.length; i += 1){
+			critters[i].doTimeStep();
+		}
+		//Need to pass back array and update set after we're done with it
 		
 	}
 	

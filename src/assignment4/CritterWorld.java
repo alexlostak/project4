@@ -22,8 +22,9 @@ public class CritterWorld {			// HOW DO I MAKE THIS WORK??????????????
 		population -= 1;
 	}
 	
-	public static Set getCritterList(){
-		return myCritters;
+	public static Critter[] getCritterList(){
+		Critter[] array = myCritters.toArray(new Critter[myCritters.size()]);
+		return array;
 	}
 
 	/*public ArrayList<Critter> findEncounters(){
