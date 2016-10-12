@@ -57,6 +57,7 @@ public abstract class Critter {
 	private int y_coord;
 	
 	protected final void walk(int direction) {
+		
 	}
 	
 	protected final void run(int direction) {
@@ -79,6 +80,7 @@ public abstract class Critter {
 	 * @param critter_class_name
 	 * @throws InvalidCritterException
 	 */
+	
 	public static void makeCritter(String critter_class_name) throws InvalidCritterException {
 		// Use Class.forName() and newInstance (which I think would be Class.newInstance()
 		
@@ -96,7 +98,7 @@ public abstract class Critter {
 			throw new InvalidCritterException(critter_class_name);
 			//e.printStackTrace(); 		never reaches this code
 		}
-		
+
 	}
 	
 	
