@@ -194,15 +194,11 @@ public abstract class Critter {
 	}
 	
 	public static void worldTimeStep() {
-		
 		Set critters = CritterWorld.getCritterList();		// Create an array from our current list of Critters
 		Iterator myIt = critters.iterator();				// Iterate through the array, performing doTimeStep() on each critter
-		while ()
-		
-		
 	}
 	
-	public static void displayWorld() {}
+	
 	
 	
 	// Attempt at creating the encounter implementation but I think adding this class violates the conditions set by the instructor
@@ -254,4 +250,38 @@ public abstract class Critter {
 		
 	}
 */
+	private static void printRowBorder(int rowLength) {
+		for (int i = 0; i < rowLength; i++) {
+			if (i == 0) {
+				System.out.print("+");
+				
+			} else if (i == (rowLength - 1)) {
+				System.out.print("+");
+			} else {
+				System.out.print("-");
+			};
+		}
+		return;
+		
+	}
+	public static void displayWorld() {
+		Set<Critter> critterWorld = CritterWorld.getCritterList();
+		Critter[][] display = new Critter[Params.world_width][Params.world_height];
+		for (Critter c : critterWorld) {
+			display[c.x_coord][c.y_coord] = c;
+		}
+		//now have all the critters stored
+		//need to print top border first
+		//print left side border
+		//print interior
+		//print right side border
+		
+		int row = 0;
+		int col = 0;
+		printRowBorder(Params.world_width + 2);
+		
+		
+		
+		
+	}
 }
