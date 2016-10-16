@@ -13,9 +13,11 @@
 package assignment4;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /* see the PDF for descriptions of the methods and fields in this class
@@ -193,9 +195,40 @@ public abstract class Critter {
 	public static void clearWorld() {
 	}
 	
+	private String getPositionKey() {
+		int x = x_coord;
+		int y = y_coord;
+		return (Integer.toString(x) + Integer.toString(y));
+	}
+	
 	public static void worldTimeStep() {
 		Set critters = CritterWorld.getCritterList();		// Create an array from our current list of Critters
-		Iterator myIt = critters.iterator();				// Iterate through the array, performing doTimeStep() on each critter
+		Iterator myIt = critters.iterator();
+		Map<String, ArrayList<Critter>> positionLog = new HashMap<String, ArrayList<Critter>>();
+		// Iterate through the array, performing doTimeStep() on each critter
+		//iterate through list of critters
+			//call do time step
+			//add position calculation to position log
+		//iterate through list for the dead
+			//if dead remove
+		while(myIt.hasNext()) {
+			Critter c = (Critter) myIt.next();
+			c.doTimeStep();
+			String positionKey = c.getPositionKey();
+			ArrayList<Critter> positionList = positionLog.get(positionKey);
+			if (positionList == null) {
+				//add critter to list of critters
+				positionList.add(c);
+			} else {
+				//add critter with hashcode of position
+				positionLog.put(positionKey, new ArrayList<Critter>());
+				positionList.add(c);
+			}
+		}
+		
+		//remove the dea
+		//deal with encounter
+		
 	}
 	
 	
