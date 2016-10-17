@@ -248,58 +248,7 @@ public abstract class Critter {
 		
 	}
 	
-	
-	
-	
-	// Attempt at creating the encounter implementation but I think adding this class violates the conditions set by the instructor
-	
-/*	
-	abstract class CritterWorld extends TestCritter {			// HOW DO I MAKE THIS WORK??????????????
-		
-		Set<Critter> myCritters = new HashSet<Critter>();
-		int population = 0;
-		
-		public CritterWorld(){
-			//Don't need constructor
-		}
-		
-		//Adds critter to set
-		public void addCritter(Critter c){
-			myCritters.add(c);				//add critter					
-			population += 1;				//increase tag count
-		}
-		
-		public void removeCritter(Critter c){
-			myCritters.remove(c);
-			population -= 1;
-		}
-		
-		 
-		 * 
-		 * The way this system works is by 
-		 * 
-		 * to access the getters and setters for the Critters we have to extend TestCritter AND.... (see below)
-		 
-		public ArrayList<Critter> findEncounters(){
-			
-			ArrayList<Critter> battleList = new ArrayList();	// Our list of critters we need to battle
-			
-			for(int x = 0; x < Params.world_width; x += 1){
-				for(int y = 0; y < Params.world_height; y += 1){
-					Iterator<Critter> myIt = myCritters.iterator();
-					while(myIt.hasNext()){
-						TestCritter thisCritter = (TestCritter)myIt.next();	// ... We have to mask each Critter as a TestCritter to access the x/y coordinates 
-	// -->					// HOPEFULLY by changing the object it doesn't eliminate the parameters we need in the first place lol
-						if(thisCritter.getX_coord() == x && thisCritter.getY_coord() == y){ battleList.add(thisCritter); } //If the critter is at this location add them to the list
-					}
-					battleList.add(null);	// a null specifies we have reached the end of the list of the critters at a specific location.
-				}
-			}
-			return battleList;		// After adding every critter to every specified location we can handle encounters
-		}
-		
-	}
-*/
+
 	private static void printRowBorder(int rowLength) {
 		for (int i = 0; i < rowLength; i++) {
 			if (i == 0) {
