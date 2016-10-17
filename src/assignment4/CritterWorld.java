@@ -16,6 +16,7 @@ public class CritterWorld {			// HOW DO I MAKE THIS WORK??????????????
 		population = 0;
 		newbornCritters = new HashSet<Critter>();
 		newborns = 0;
+		movedCritters = new HashSet<Critter>();
 		stageOneInit();
 		
 	}
@@ -67,6 +68,7 @@ public class CritterWorld {			// HOW DO I MAKE THIS WORK??????????????
 		newbornCritters.removeAll(newbornCritters); //Clear newborn list
 		population += newborns;						//Add newborns to population total
 		newborns = 0;								//Clear number of newborns
+		System.out.println(population);
 	}
 	
 	public static void addMovedCritter(Critter c){

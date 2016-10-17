@@ -30,7 +30,7 @@ public abstract class Critter {
 	private static String myPackage;
 	private	static List<Critter> population = new java.util.ArrayList<Critter>();
 	private static List<Critter> babies = new java.util.ArrayList<Critter>();
-
+	
 	// Gets the package name.  This assumes that Critter and its subclasses are all in the same package.
 	static {
 		myPackage = Critter.class.getPackage().toString().split(" ")[1];
@@ -82,19 +82,21 @@ public abstract class Critter {
 	}
 	
 	protected final void walk(int direction) {
-		if (!(CritterWorld.hasCritterMoved(this))) {
-			move(1, direction);
-			CritterWorld.addMovedCritter(this);
-		}
-		this.energy -= Params.walk_energy_cost;
+		//Need to split for encounters
+			if (!(CritterWorld.hasCritterMoved(this))) {
+				move(1, direction);
+				CritterWorld.addMovedCritter(this);
+			}
+			this.energy -= Params.walk_energy_cost;
 	}
 	
 	protected final void run(int direction) {
-		if (!(CritterWorld.hasCritterMoved(this))) {
-			move(2, direction);
-			CritterWorld.addMovedCritter(this);
-		}
-		this.energy -= Params.run_energy_cost;
+		//Need to split for encounters
+			if (!(CritterWorld.hasCritterMoved(this))) {
+				move(2, direction);
+				CritterWorld.addMovedCritter(this);
+			}
+			this.energy -= Params.run_energy_cost;
 	}
 	
 	protected final void reproduce(Critter offspring, int direction) {
@@ -112,6 +114,7 @@ public abstract class Critter {
 		this.y_coord = y_temp;
 		//Store to be added later
 		CritterWorld.addNewborn(offspring);
+		System.out.println("WE MADE A BABY!!!");
 	}
 
 	public abstract void doTimeStep();
@@ -289,7 +292,8 @@ public abstract class Critter {
 		
 		removeWorldDead(critters);
 		//deal with encounter
-		
+		CritterWorld.addNewbornsToPop();		// Add newborns at the end of the time step
+		CritterWorld.clearMovedCritters();		// Clear list of critters that have moved
 	}
 	
 
