@@ -327,7 +327,6 @@ public abstract class Critter {
 		int displayHeight = Params.world_height + 2;
 		int displayWidth = Params.world_width + 2;
 		String printStream = new String();
-		printStream += "ayo my mayo";
 			for (int y = 0; y < displayHeight; y++) {
 				
 				for (int x = 0; x < displayWidth; x++) {
@@ -335,14 +334,15 @@ public abstract class Critter {
 					if ((x == 0) || (y == 0)) {
 						if ((x == 0) && (y == 0)) {printStream += "+";}
 						else if (x == (displayWidth - 1)) {printStream += "+\n";}
-						else if (y == (displayHeight - 1)) {printStream.concat("+");}
-						else if (x == 0) {printStream.concat("|");}
-						else if (y == 0) {printStream.concat("-");}
+						else if (y == (displayHeight - 1)) {printStream += "+";;}
+						else if (x == 0) {printStream += "|";}
+						else if (y == 0) {printStream += "-";}
 					} else if (x == (displayWidth - 1)) {
-						if (y == displayHeight -1) {printStream.concat("+\n");}
-						else {printStream.concat("|\n");}
+						if (y == displayHeight -1) {printStream += "+\n";}
+						else {printStream += "|\n";}
 		 			} else if (y == (displayHeight - 1)) {
-						printStream.concat("-");
+		 				printStream += "-";
+		 				
 					}
 		 			else {
 		 				//if this far, then not the border
@@ -351,9 +351,9 @@ public abstract class Critter {
 		 				//else print space
 		 				Critter critterToPrint = display[x][y];
 		 				if (critterToPrint != null) {
-		 					printStream.concat(critterToPrint.toString());
+		 					printStream += critterToPrint.toString();
 		 				} else {
-		 					printStream.concat(" ");
+		 					printStream += " ";
 		 				}
 		 			}
 				}
