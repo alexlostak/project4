@@ -1,7 +1,7 @@
 package assignment4;
 import java.util.*;
 
-public class CritterWorld {			// HOW DO I MAKE THIS WORK??????????????
+public class CritterWorld {			
 	
 	private static Set<Critter> myCritters;
 	private static Set<Critter> newbornCritters;
@@ -60,10 +60,10 @@ public class CritterWorld {			// HOW DO I MAKE THIS WORK??????????????
 	
 	public static void addNewbornsToPop(){
 		myCritters.addAll(newbornCritters);			//Time to add newborns to pop
-		newbornCritters.removeAll(newbornCritters); //Clear newborn list
+		newbornCritters.clear(); //Clear newborn list
 		population += newborns;						//Add newborns to population total
 		newborns = 0;								//Clear number of newborns
-		System.out.println(population);
+		//System.out.println(population);
 	}
 	
 	public static void addMovedCritter(Critter c){
@@ -71,7 +71,7 @@ public class CritterWorld {			// HOW DO I MAKE THIS WORK??????????????
 	}
 	
 	public static void clearMovedCritters(){
-		movedCritters.removeAll(movedCritters);
+		movedCritters.clear();
 	}
 	
 	public static boolean hasCritterMoved(Critter c){
