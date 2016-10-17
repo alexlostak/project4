@@ -327,14 +327,14 @@ public abstract class Critter {
 		int displayHeight = Params.world_height + 2;
 		int displayWidth = Params.world_width + 2;
 		String printStream = new String();
-		for (int i = 0; i < displayLength; i++) {
+		printStream += "ayo my mayo";
 			for (int y = 0; y < displayHeight; y++) {
 				
 				for (int x = 0; x < displayWidth; x++) {
 					//check for border
 					if ((x == 0) || (y == 0)) {
-						if ((x == 0) && (y == 0)) {printStream.concat("+");}
-						else if (x == (displayWidth - 1)) {printStream.concat("+\n");}
+						if ((x == 0) && (y == 0)) {printStream += "+";}
+						else if (x == (displayWidth - 1)) {printStream += "+\n";}
 						else if (y == (displayHeight - 1)) {printStream.concat("+");}
 						else if (x == 0) {printStream.concat("|");}
 						else if (y == 0) {printStream.concat("-");}
@@ -359,17 +359,8 @@ public abstract class Critter {
 				}
 				
 			}
-		}
 		
-		//now have all the critters stored
-		//need to print top border first
-		//print left side border
-		//print interior
-		//print right side border
-		
-//		int row = 0;
-//		int col = 0;
-//		printRowBorder(Params.world_width + 2);
+		System.out.print(printStream);
 		
 		
 		

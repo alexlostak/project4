@@ -72,6 +72,8 @@ public class Main {
         //show
         //step
         //make
+        	//for stage one just initial with 100 Algae and 25 Craig
+        CritterWorld.makeCritterWorld();
         boolean dontQuit = true;
         while (dontQuit) {
         	String userInput = kb.next();
@@ -80,11 +82,11 @@ public class Main {
         	} else if (userInput.equals("show")) {
         		Critter.displayWorld();
         	} else if (userInput.equals("step")) {
-        		
-        	}
+        		Critter.worldTimeStep();
+        	};
         	
         }
-        System.out.println("GLHF");
+        
         
         /* Write your code above */
         System.out.flush();
