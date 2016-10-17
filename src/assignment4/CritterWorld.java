@@ -45,9 +45,8 @@ public class CritterWorld {			// HOW DO I MAKE THIS WORK??????????????
 		population -= 1;
 	}
 	
-	public static Critter[] getCritterList(){
-		Critter[] array = myCritters.toArray(new Critter[myCritters.size()]);
-		return array;
+	public static Set<Critter> getCritterList(){
+		return myCritters;
 	}
 
 	public static Map getPositionLog() {
