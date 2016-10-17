@@ -8,7 +8,6 @@ public class CritterWorld {			// HOW DO I MAKE THIS WORK??????????????
 	private static Set<Critter> movedCritters;
 	private static int population;
 	private static int newborns;
-	public static Map<String, ArrayList<Critter>> positionLog = new HashMap<String, ArrayList<Critter>>();
 
 	
 	public static void makeCritterWorld() {
@@ -53,10 +52,6 @@ public class CritterWorld {			// HOW DO I MAKE THIS WORK??????????????
 	
 	public static Set<Critter> getCritterList(){
 		return myCritters;
-	}
-
-	public static Map getPositionLog() {
-		return positionLog;
 	}
 	
 	public static void addNewborn(Critter c){

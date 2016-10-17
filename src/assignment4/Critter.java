@@ -30,6 +30,7 @@ public abstract class Critter {
 	private static String myPackage;
 	private	static List<Critter> population = new java.util.ArrayList<Critter>();
 	private static List<Critter> babies = new java.util.ArrayList<Critter>();
+	private static Map<String, ArrayList<Critter>> positionLog = new HashMap<String, ArrayList<Critter>>();
 	
 	// Gets the package name.  This assumes that Critter and its subclasses are all in the same package.
 	static {
@@ -248,6 +249,12 @@ public abstract class Critter {
 		return (Integer.toString(x) + Integer.toString(y));
 	}
 	
+	private static ArrayList<Critter> getPositionCritterArray (Critter c, Map<String, ArrayList<Critter>> positionLog) {
+		String positionKey = c.getPositionKey();
+		ArrayList<Critter> positionList = positionLog.get(positionKey);
+		return positionList;
+	}
+	
 	private static void removeWorldDead(Set critters) {
 		Iterator worldIt = critters.iterator();
 		//iterate through world
@@ -263,35 +270,109 @@ public abstract class Critter {
 		}
 	}
 	
-	public static void worldTimeStep() {
-		Set critters = CritterWorld.getCritterList();		// Create an array from our current list of Critters
-		Iterator worldIt = critters.iterator();
-		Map<String, ArrayList<Critter>> positionLog = CritterWorld.getPositionLog();
-		// Iterate through the array, performing doTimeStep() on each critter
-		//iterate through list of critters
-			//call do time step
-			//add position calculation to position log
-		//iterate through list for the dead
-			//if dead remove
-		while(worldIt.hasNext()) {
-			Critter c = (Critter) worldIt.next();
-			c.doTimeStep();
-			String positionKey = c.getPositionKey();
-			ArrayList<Critter> positionList = positionLog.get(positionKey);
-			if (positionList != null) {
-				//add critter to list of critters
-				positionList.add(c);
-			} else {
-				//add critter with hashcode of position
-				positionList = new ArrayList<Critter>();
-				positionList.add(c);
-				positionLog.put(positionKey, new ArrayList<Critter>());
-
+	//HANDLING ENCOUNTERS HERE
+		private static boolean hasEncounter(ArrayList<Critter> positionCritterArray) {
+			if (positionCritterArray.size() > 1) {
+				return true;
 			}
+			return false;
 		}
 		
-		removeWorldDead(critters);
-		//deal with encounter
+		private void winEncounter(Critter loser) {
+			energy += loser.energy / 2;
+			return;
+		}
+		
+		private boolean ranFromFight(String positionKey) {
+			String newKey = getPositionKey();
+			if (newKey.equals(positionKey))
+				return false;
+			return true;
+		}
+		private static void resolveEncounter(ArrayList<Critter> critters) {
+			//call fight method for critters
+			String currentPositionKey = critters.get(0).getPositionKey();
+			while (critters.size() > 1) {
+				Critter a = critters.get(0);
+				Critter b = critters.get(1);
+				boolean aFight = a.fight(b.toString());
+				boolean bFight = b.fight(a.toString());
+				//need to check that neither moved
+				boolean aRan = a.ranFromFight(currentPositionKey);
+				boolean bRan = b.ranFromFight(currentPositionKey);
+				if (!(aRan && bRan)) {
+					int aFightRoll = 0;
+					int bFightRoll = 0;
+					if (aFight)
+						aFightRoll = getRandomInt(a.energy);
+					if (bFight)
+						bFightRoll = getRandomInt(b.energy);
+					if ((aFightRoll >= bFightRoll)) {
+						a.winEncounter(b);
+						critters.remove(1); 
+					} else if (aFightRoll < bFightRoll) {
+						b.winEncounter(a);
+						critters.remove(0);
+					}
+				} else if (aRan && bRan) {
+					critters.remove(1);
+					critters.remove(0);
+				}else if (aRan) {
+					critters.remove(0);
+				} else if (bRan) {
+					critters.remove(1);
+				}
+			}
+			return;
+		}
+		
+		public static void handleEncounters (Set critters) {
+			Iterator worldIt = critters.iterator();
+			while (worldIt.hasNext()) {
+				Critter c = (Critter) worldIt.next();
+				ArrayList<Critter> positionCritterArray = getPositionCritterArray(c, positionLog);
+				if (hasEncounter(positionCritterArray) == true) {
+					//resolve encounter
+					resolveEncounter(positionCritterArray);
+				}
+			}
+		}	
+		
+		private static Map getPositionLog() {
+			return positionLog;
+		}
+	
+		public static void worldTimeStep() {
+			Set critters = CritterWorld.getCritterList();		// Create an array from our current list of Critters
+			Iterator worldIt = critters.iterator();
+			
+			//MAY NEED TO HAVE POSITION LOG ENTIRELY IN HERE
+			//DEPENDS ON HOW ENCOUNTERS ARE WORKING
+			
+			// Iterate through the array, performing doTimeStep() on each critter
+			//iterate through list of critters
+				//call do time step
+				//add position calculation to position log
+			//iterate through list for the dead
+				//if dead remove
+			while(worldIt.hasNext()) {
+				Critter c = (Critter) worldIt.next();
+				c.doTimeStep();
+				String positionKey = c.getPositionKey();
+				ArrayList<Critter> positionList = positionLog.get(positionKey);
+				if (positionList != null) {
+					//add critter to list of critters
+					positionList.add(c);
+				} else {
+					//add critter with hashcode of position
+					positionList = new ArrayList<Critter>();
+					positionList.add(c);
+					positionLog.put(positionKey, new ArrayList<Critter>());
+				}
+			}
+			
+			removeWorldDead(critters);
+			//deal with encounter
 		CritterWorld.addNewbornsToPop();		// Add newborns at the end of the time step
 		CritterWorld.clearMovedCritters();		// Clear list of critters that have moved
 	}
