@@ -92,6 +92,21 @@ public abstract class Critter {
 	}
 	
 	protected final void reproduce(Critter offspring, int direction) {
+		if (this.energy < Params.min_reproduce_energy){ return; }
+		//Energy
+		offspring.energy = this.energy/2;					// Half of parent's energy rounded down
+		this.energy = (this.energy/2) + (this.energy%2);	// Half of parent's energy rounded up
+		//Placement
+		int x_temp = this.x_coord;
+		int y_temp = this.y_coord;
+		move(1, direction);						//Find birth location
+		offspring.x_coord = this.x_coord;		//Set offspring to adjacent location
+		offspring.y_coord = this.y_coord;	
+		this.x_coord = x_temp;					//Set parent back to normal
+		this.y_coord = y_temp;
+		//Store to be added later
+		CritterWorld.addNewborn(offspring);
+		
 	}
 
 	public abstract void doTimeStep();

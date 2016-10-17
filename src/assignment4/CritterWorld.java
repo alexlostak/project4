@@ -4,13 +4,17 @@ import java.util.*;
 public class CritterWorld {			// HOW DO I MAKE THIS WORK??????????????
 	
 	private static Set<Critter> myCritters;
+	private static Set<Critter> newbornCritters;
 	private static int population;
+	private static int newborns;
 	public static Map<String, ArrayList<Critter>> positionLog = new HashMap<String, ArrayList<Critter>>();
 
 	
 	public static void makeCritterWorld() {
 		myCritters = new HashSet<Critter>();
 		population = 0;
+		newbornCritters = new HashSet<Critter>();
+		newborns = 0;
 		stageOneInit();
 		
 	}
@@ -51,6 +55,17 @@ public class CritterWorld {			// HOW DO I MAKE THIS WORK??????????????
 
 	public static Map getPositionLog() {
 		return positionLog;
+	}
+	
+	public static void addNewborn(Critter c){
+		newbornCritters.add(c);						//Add newborn to temporary list
+	}
+	
+	public static void addNewbornsToPop(){
+		myCritters.addAll(newbornCritters);			//Time to add newborns to pop
+		newbornCritters.removeAll(newbornCritters); //Clear newborn list
+		population += newborns;						//Add newborns to population total
+		newborns = 0;								//Clear number of newborns
 	}
 	
 }
