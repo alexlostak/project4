@@ -68,8 +68,25 @@ public class Main {
 
         /* Do not alter the code above for your submission. */
         /* Write your code below. */
+        //quit
+        //show
+        //step
+        //make
+        	//for stage one just initial with 100 Algae and 25 Craig
         CritterWorld.makeCritterWorld();
-        System.out.println("GLHF");
+        boolean dontQuit = true;
+        while (dontQuit) {
+        	String userInput = kb.next();
+        	if (userInput.equals("quit")) {
+        		dontQuit = false;
+        	} else if (userInput.equals("show")) {
+        		Critter.displayWorld();
+        	} else if (userInput.equals("step")) {
+        		Critter.worldTimeStep();
+        	};
+        	
+        }
+        
         
         /* Write your code above */
         System.out.flush();

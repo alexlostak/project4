@@ -13,9 +13,11 @@
 package assignment4;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /* see the PDF for descriptions of the methods and fields in this class
@@ -193,17 +195,58 @@ public abstract class Critter {
 	public static void clearWorld() {
 	}
 	
-	public static void worldTimeStep() {
-		
-		Critter[] critters = CritterWorld.getCritterList();		// Create an array from our current list of Critters
-		for(int i = 0; i < critters.length; i += 1){
-			critters[i].doTimeStep();
+	private String getPositionKey() {
+		int x = x_coord;
+		int y = y_coord;
+		return (Integer.toString(x) + Integer.toString(y));
+	}
+	
+	private static void removeWorldDead(Set critters) {
+		Iterator worldIt = critters.iterator();
+		//iterate through world
+			//check if dead
+			//if dead remove from world
+
+		while (worldIt.hasNext()) {
+			Critter c = (Critter) worldIt.next();
+			int totalEnergy = c.energy - Params.rest_energy_cost;
+			if(totalEnergy <= 0) {
+				worldIt.remove();
+			}
 		}
-		//Need to pass back array and update set after we're done with it
+	}
+	
+	public static void worldTimeStep() {
+		Set critters = CritterWorld.getCritterList();		// Create an array from our current list of Critters
+		Iterator worldIt = critters.iterator();
+		Map<String, ArrayList<Critter>> positionLog = CritterWorld.getPositionLog();
+		// Iterate through the array, performing doTimeStep() on each critter
+		//iterate through list of critters
+			//call do time step
+			//add position calculation to position log
+		//iterate through list for the dead
+			//if dead remove
+		while(worldIt.hasNext()) {
+			Critter c = (Critter) worldIt.next();
+			c.doTimeStep();
+			String positionKey = c.getPositionKey();
+			ArrayList<Critter> positionList = positionLog.get(positionKey);
+			if (positionList == null) {
+				//add critter to list of critters
+				positionList.add(c);
+			} else {
+				//add critter with hashcode of position
+				positionLog.put(positionKey, new ArrayList<Critter>());
+				positionList.add(c);
+			}
+		}
+		
+		removeWorldDead(critters);
+		//deal with encounter
 		
 	}
 	
-	public static void displayWorld() {}
+	
 	
 	
 	// Attempt at creating the encounter implementation but I think adding this class violates the conditions set by the instructor
@@ -255,4 +298,72 @@ public abstract class Critter {
 		
 	}
 */
+	private static void printRowBorder(int rowLength) {
+		for (int i = 0; i < rowLength; i++) {
+			if (i == 0) {
+				System.out.print("+");
+				
+			} else if (i == (rowLength - 1)) {
+				System.out.print("+");
+			} else {
+				System.out.print("-");
+			};
+		}
+		return;
+		
+	}
+	public static void displayWorld() {
+		Set<Critter> critterWorld = CritterWorld.getCritterList();
+		int displayLength = (Params.world_height + 2) * (Params.world_width + 2);
+		Critter[][] display = new Critter[Params.world_width + 2][Params.world_height + 2];
+		for (Critter c : critterWorld) {
+			display[c.x_coord + 1][c.y_coord + 1] = c;
+		}
+		Iterator worldIt = critterWorld.iterator();
+		while (worldIt.hasNext()) {
+			Critter c = (Critter) worldIt.next();
+			display[c.x_coord + 1] [c.y_coord + 1] = c;
+		}
+		int displayHeight = Params.world_height + 2;
+		int displayWidth = Params.world_width + 2;
+		String printStream = new String();
+			for (int y = 0; y < displayHeight; y++) {
+				
+				for (int x = 0; x < displayWidth; x++) {
+					//check for border
+					if ((x == 0) || (y == 0)) {
+						if ((x == 0) && (y == 0)) {printStream += "+";}
+						else if (x == (displayWidth - 1)) {printStream += "+\n";}
+						else if (y == (displayHeight - 1)) {printStream += "+";;}
+						else if (x == 0) {printStream += "|";}
+						else if (y == 0) {printStream += "-";}
+					} else if (x == (displayWidth - 1)) {
+						if (y == displayHeight -1) {printStream += "+\n";}
+						else {printStream += "|\n";}
+		 			} else if (y == (displayHeight - 1)) {
+		 				printStream += "-";
+		 				
+					}
+		 			else {
+		 				//if this far, then not the border
+		 				//check if critter
+		 				//if so print critter
+		 				//else print space
+		 				Critter critterToPrint = display[x][y];
+		 				if (critterToPrint != null) {
+		 					printStream += critterToPrint.toString();
+		 				} else {
+		 					printStream += " ";
+		 				}
+		 			}
+				}
+				
+			}
+		
+		System.out.print(printStream);
+		
+		
+		
+		
+	}
 }
