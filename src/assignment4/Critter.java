@@ -59,12 +59,26 @@ public abstract class Critter {
 		x_coord = getRandomInt(Params.world_width);
 		return;
 	}
+	
+	private void move(int speed, int direction){
+		if (direction == 0) { this.x_coord += speed; }
+		else if (direction == 1) { this.x_coord +=  speed; this.y_coord += -speed; }
+		else if (direction == 2) { 					       this.y_coord += -speed; }
+		else if (direction == 3) { this.x_coord += -speed; this.y_coord += -speed; }
+		else if (direction == 4) { this.x_coord += -speed; }
+		else if (direction == 5) { this.x_coord += -speed; this.y_coord +=  speed; }
+		else if (direction == 6) { 					       this.y_coord +=  speed; }
+		else if (direction == 7) { this.x_coord +=  speed; this.y_coord +=  speed; }
+	}
+	
 	protected final void walk(int direction) {
-		
+		move(1, direction);
+		this.energy -= Params.walk_energy_cost;
 	}
 	
 	protected final void run(int direction) {
-		
+		move(2, direction);
+		this.energy -= Params.run_energy_cost;
 	}
 	
 	protected final void reproduce(Critter offspring, int direction) {
