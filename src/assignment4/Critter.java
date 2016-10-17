@@ -74,8 +74,11 @@ public abstract class Critter {
 		if (this.x_coord > Params.world_width)  { this.x_coord = this.x_coord - (Params.world_width + 1);  }
 		if (this.y_coord > Params.world_height) { this.y_coord = this.y_coord - (Params.world_height + 1); }
 		
-		if (this.x_coord < Params.world_width)  { this.x_coord = this.x_coord + (Params.world_width + 1);  }
-		if (this.y_coord < Params.world_height) { this.y_coord = this.y_coord + (Params.world_height + 1); }
+		if (this.x_coord < 0) { this.x_coord = this.x_coord + (Params.world_width + 1);  }
+		if (this.y_coord < 0) { this.y_coord = this.y_coord + (Params.world_height + 1); }
+		
+		//System.out.println("Critter x coordinate: " + this.x_coord);  //Testing
+		//System.out.println("\tCritter y coordinate: " + this.y_coord);
 	}
 	
 	protected final void walk(int direction) {
