@@ -82,12 +82,18 @@ public abstract class Critter {
 	}
 	
 	protected final void walk(int direction) {
-		move(1, direction);
+		if (!(CritterWorld.hasCritterMoved(this))) {
+			move(1, direction);
+			CritterWorld.addMovedCritter(this);
+		}
 		this.energy -= Params.walk_energy_cost;
 	}
 	
 	protected final void run(int direction) {
-		move(2, direction);
+		if (!(CritterWorld.hasCritterMoved(this))) {
+			move(2, direction);
+			CritterWorld.addMovedCritter(this);
+		}
 		this.energy -= Params.run_energy_cost;
 	}
 	
@@ -106,7 +112,6 @@ public abstract class Critter {
 		this.y_coord = y_temp;
 		//Store to be added later
 		CritterWorld.addNewborn(offspring);
-		
 	}
 
 	public abstract void doTimeStep();

@@ -5,6 +5,7 @@ public class CritterWorld {			// HOW DO I MAKE THIS WORK??????????????
 	
 	private static Set<Critter> myCritters;
 	private static Set<Critter> newbornCritters;
+	private static Set<Critter> movedCritters;
 	private static int population;
 	private static int newborns;
 	public static Map<String, ArrayList<Critter>> positionLog = new HashMap<String, ArrayList<Critter>>();
@@ -68,4 +69,15 @@ public class CritterWorld {			// HOW DO I MAKE THIS WORK??????????????
 		newborns = 0;								//Clear number of newborns
 	}
 	
+	public static void addMovedCritter(Critter c){
+		movedCritters.add(c);
+	}
+	
+	public static void clearMovedCritters(){
+		movedCritters.removeAll(movedCritters);
+	}
+	
+	public static boolean hasCritterMoved(Critter c){
+		return movedCritters.contains(c);
+	}
 }
