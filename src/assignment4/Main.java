@@ -68,6 +68,22 @@ public class Main {
 
         /* Do not alter the code above for your submission. */
         /* Write your code below. */
+        //quit
+        //show
+        //step
+        //make
+        boolean dontQuit = true;
+        while (dontQuit) {
+        	String userInput = kb.next();
+        	if (userInput.equals("quit")) {
+        		dontQuit = false;
+        	} else if (userInput.equals("show")) {
+        		Critter.displayWorld();
+        	} else if (userInput.equals("step")) {
+        		
+        	}
+        	
+        }
         System.out.println("GLHF");
         
         /* Write your code above */
