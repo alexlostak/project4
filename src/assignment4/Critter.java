@@ -206,7 +206,7 @@ public abstract class Critter {
 		//iterate through world
 			//check if dead
 			//if dead remove from world
-
+		
 		while (worldIt.hasNext()) {
 			Critter c = (Critter) worldIt.next();
 			int totalEnergy = c.energy - Params.rest_energy_cost;
@@ -231,13 +231,15 @@ public abstract class Critter {
 			c.doTimeStep();
 			String positionKey = c.getPositionKey();
 			ArrayList<Critter> positionList = positionLog.get(positionKey);
-			if (positionList == null) {
+			if (positionList != null) {
 				//add critter to list of critters
 				positionList.add(c);
 			} else {
 				//add critter with hashcode of position
-				positionLog.put(positionKey, new ArrayList<Critter>());
+				positionList = new ArrayList<Critter>();
 				positionList.add(c);
+				positionLog.put(positionKey, new ArrayList<Critter>());
+
 			}
 		}
 		
