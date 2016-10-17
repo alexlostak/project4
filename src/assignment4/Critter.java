@@ -61,7 +61,7 @@ public abstract class Critter {
 	}
 	
 	private void move(int speed, int direction){
-		if (direction == 0) { this.x_coord += speed; }
+			 if (direction == 0) { this.x_coord +=  speed; }
 		else if (direction == 1) { this.x_coord +=  speed; this.y_coord += -speed; }
 		else if (direction == 2) { 					       this.y_coord += -speed; }
 		else if (direction == 3) { this.x_coord += -speed; this.y_coord += -speed; }
@@ -69,6 +69,13 @@ public abstract class Critter {
 		else if (direction == 5) { this.x_coord += -speed; this.y_coord +=  speed; }
 		else if (direction == 6) { 					       this.y_coord +=  speed; }
 		else if (direction == 7) { this.x_coord +=  speed; this.y_coord +=  speed; }
+		
+		//Screen wrap-around catches! (Negative and over sizes)
+		if (this.x_coord > Params.world_width)  { this.x_coord = this.x_coord - (Params.world_width + 1);  }
+		if (this.y_coord > Params.world_height) { this.y_coord = this.y_coord - (Params.world_height + 1); }
+		
+		if (this.x_coord < Params.world_width)  { this.x_coord = this.x_coord + (Params.world_width + 1);  }
+		if (this.y_coord < Params.world_height) { this.y_coord = this.y_coord + (Params.world_height + 1); }
 	}
 	
 	protected final void walk(int direction) {
