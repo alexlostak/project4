@@ -3,14 +3,15 @@ import java.util.*;
 
 public class CritterWorld {			// HOW DO I MAKE THIS WORK??????????????
 	
-	private static Set<Critter> myCritters;
-	private static int population;
+	private static Set<Critter> myCritters = new HashSet<Critter>();
+	private static int population = 0;
+	public static Map<String, ArrayList<Critter>> positionLog = new HashMap<String, ArrayList<Critter>>();
+
 	
-	
-	public static void makeCritterWorld() {
-		myCritters = new HashSet<Critter>();
-		population = 0;
-	}
+//	public static void makeCritterWorld() {
+//		myCritters = new HashSet<Critter>();
+//		population = 0;
+//	}
 	//Adds critter to set
 	public static void addCritter(Critter c){
 		myCritters.add(c);				//add critter					
@@ -26,26 +27,8 @@ public class CritterWorld {			// HOW DO I MAKE THIS WORK??????????????
 		return myCritters;
 	}
 
-	/*public ArrayList<Critter> findEncounters(){
-		
-		for(int x = 0; x < Params.world_width; x += 1){
-			for(int y = 0; y < Params.world_height; y += 1){
-				Iterator<Critter> myIt = myCritters.iterator();
-				while(myIt.hasNext()){
-					Critter thisCritter = myIt.next();
-					int thisX = thisCritter.getX_coord();
-					
-					//if(c.x_coord == x && c.y_coord){
-						
-					//}
-				}
-			}
-		}
-		
-		
-		
-		
-		return null;
-	}*/
+	public static Map getPositionLog() {
+		return positionLog;
+	}
 	
 }
