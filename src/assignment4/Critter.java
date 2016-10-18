@@ -31,6 +31,7 @@ public abstract class Critter {
 	private	static List<Critter> population = new java.util.ArrayList<Critter>();
 	private static List<Critter> babies = new java.util.ArrayList<Critter>();
 	private static Map<String, ArrayList<Critter>> positionLog = new HashMap<String, ArrayList<Critter>>();
+	private static boolean encounter_state = false; 		// Global for determining how our walk and run functions work depending on what we're doing!
 	
 	// Gets the package name.  This assumes that Critter and its subclasses are all in the same package.
 	static {
@@ -83,28 +84,56 @@ public abstract class Critter {
 	}
 	
 	protected final void walk(int direction) {
-		//Need to split for encounters
+		if (!(encounter_state)){							// General call
 			if (!(CritterWorld.hasCritterMoved(this))) {
 				move(1, direction);
 				CritterWorld.addMovedCritter(this);
 			}
 			this.energy -= Params.walk_energy_cost;
+			//System.out.println(this.energy);
+		}
+		else if (encounter_state){							// Called for encounter
+				int xTemp = this.x_coord;
+				int yTemp = this.y_coord;
+				move(1, direction);
+				String key = getPositionKey();
+				if (positionLog.containsKey(key)){	// If spot is taken put Critter back at original location
+					this.x_coord = xTemp;
+					this.y_coord = yTemp;
+				}
+				// Couldn't we just add the key now? Or would that throw an error? ---------
+				this.energy -= Params.walk_energy_cost;
+		}
 	}
 	
 	protected final void run(int direction) {
-		//Need to split for encounters
+		if (!(encounter_state)){
 			if (!(CritterWorld.hasCritterMoved(this))) {
 				move(2, direction);
 				CritterWorld.addMovedCritter(this);
 			}
 			this.energy -= Params.run_energy_cost;
+		}
+		else if (encounter_state){
+			int xTemp = this.x_coord;
+			int yTemp = this.y_coord;
+			move(2, direction);
+			String key = getPositionKey();
+			if (positionLog.containsKey(key)){	// If spot is taken put Critter back at original location
+				this.x_coord = xTemp;
+				this.y_coord = yTemp;
+			}
+			// Couldn't we just add the key now? Or would that throw an error? ---------
+			this.energy -= Params.run_energy_cost;
+		}
 	}
 	
 	protected final void reproduce(Critter offspring, int direction) {
 		if (this.energy < Params.min_reproduce_energy){ return; }
 		//Energy
-		offspring.energy = this.energy/2;					// Half of parent's energy rounded down
-		this.energy = (this.energy/2) + (this.energy%2);	// Half of parent's energy rounded up
+		//System.out.println("Parent initial energy: " + this.energy);
+		offspring.energy = this.energy/2;					// Half of parent's energy rounded down to child
+		this.energy = (this.energy/2) + (this.energy%2);	// Half of parent's energy rounded up to parent
 		//Placement
 		int x_temp = this.x_coord;
 		int y_temp = this.y_coord;
@@ -115,6 +144,7 @@ public abstract class Critter {
 		this.y_coord = y_temp;
 		//Store to be added later
 		CritterWorld.addNewborn(offspring);
+		//System.out.println("Parent E: " + this.energy + " Child E: " + offspring.energy);
 	}
 
 	public abstract void doTimeStep();

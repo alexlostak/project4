@@ -56,6 +56,7 @@ public class CritterWorld {
 	
 	public static void addNewborn(Critter c){
 		newbornCritters.add(c);						//Add newborn to temporary list
+		newborns += 1;
 	}
 	
 	public static void addNewbornsToPop(){
@@ -63,7 +64,7 @@ public class CritterWorld {
 		newbornCritters.clear(); //Clear newborn list
 		population += newborns;						//Add newborns to population total
 		newborns = 0;								//Clear number of newborns
-		//System.out.println(population);
+		//System.out.println("Current population: " + population);
 	}
 	
 	public static void addMovedCritter(Critter c){
