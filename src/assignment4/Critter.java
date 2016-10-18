@@ -329,7 +329,6 @@ public abstract class Critter {
 				Critter c = (Critter) worldIt.next();
 				ArrayList<Critter> positionCritterArray = getPositionCritterArray(c, positionLog);
 				if (hasEncounter(positionCritterArray) == true) {
-					//resolve encounter
 					resolveEncounter(positionCritterArray);
 				}
 			}
