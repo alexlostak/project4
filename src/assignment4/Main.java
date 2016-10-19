@@ -79,31 +79,32 @@ public class Main {
         CritterWorld.makeCritterWorld();
         boolean dontQuit = true;
         while (dontQuit) {
-        	String userInput = kb.next();
-        	if (userInput.equals("quit")) {
+        	String userInput = kb.nextLine();
+        	String[] splitUserInput = userInput.split("\\s+");
+        	int splitIndex = 0;
+        	if (splitUserInput[splitIndex].equals("quit")) {
         		dontQuit = false;
-        	} else if (userInput.equals("show")) {
+        	} else if (splitUserInput[splitIndex].equals("show")) {
         		Critter.displayWorld();
-        	} else if (userInput.equals("step")) {
+        	} else if (splitUserInput[splitIndex].equals("step")) {
+        		splitIndex++;
         		Critter.worldTimeStep();
-        	
-        		if (kb.hasNext()) {
-        			userInput = kb.next();
-        			int stepCount = Integer.parseInt(userInput);
+        		if (splitUserInput.length > 1) {
+        			int stepCount = Integer.parseInt(splitUserInput[splitIndex]);
         			for (int i = 0; i < stepCount; i++) {
         				Critter.worldTimeStep();
         			}
         		}
-        	} else if (userInput.equals("seed")) {
-        		userInput = kb.next();
-        		long seedNumber = Long.valueOf(userInput);
+        	} else if (splitUserInput[splitIndex].equals("seed")) {
+        		splitIndex++;
+        		long seedNumber = Long.valueOf(splitUserInput[splitIndex]);
         		Critter.setSeed(seedNumber);
-        	} else if (userInput.equals("make")) {
-        		userInput = kb.next();
-        		String className = new String(userInput);
-        		if (kb.hasNext()) {
-        			userInput = kb.next();
-            		String rawCount = new String(userInput);
+        	} else if (splitUserInput[splitIndex].equals("make")) {
+        		splitIndex++;
+        		String className = new String(splitUserInput[splitIndex]);
+        		splitIndex++;
+        		if (splitUserInput.length > 2) {
+            		String rawCount = new String(splitUserInput[splitIndex]);
             		int count = Integer.parseInt(rawCount);
             		for (int i = 0; i < count; i++) {
             			try {
@@ -120,7 +121,7 @@ public class Main {
         			}
         		}
         		
-        	} else if (userInput.equals("stats")) {		
+        	} else if (splitUserInput[splitIndex].equals("stats")) {		
         		userInput = kb.next();
         		try {
         			Class<?> className = Class.forName(myPackage + "." + userInput);		// Get class of input
