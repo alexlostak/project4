@@ -125,12 +125,9 @@ public class Main {
         		userInput = kb.next();
         		try {
         			Class<?> className = Class.forName(myPackage + "." + userInput);		// Get class of input
-        			System.out.println(className);
         			Method runStatsMethod = className.getMethod("runStats", new Class<?>[]{List.class});
-        			System.out.println("here");
         			runStatsMethod.invoke(null, Critter.getInstances(userInput));	// Input null because static method, second parameter is the list
-        			System.out.println("here now");
-        		} catch (Exception e){
+          		} catch (Exception e){
         			System.out.println(e.toString());
         			return;
         		}
