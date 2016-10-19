@@ -78,7 +78,6 @@ public class Main {
         
         CritterWorld.makeCritterWorld();
         boolean dontQuit = true;
-        
         while (dontQuit) {
         	System.out.print("critters> ");
         	String userInput = kb.nextLine();
@@ -103,14 +102,20 @@ public class Main {
 	        		splitIndex++;
 	        		Critter.worldTimeStep();
 	        		if (splitUserInput.length > 1) {
-	        			int stepCount = Integer.parseInt(splitUserInput[splitIndex]);
-	        			for (int i = 0; i < stepCount; i++) {
-	        				Critter.worldTimeStep();
+	        			try {
+		        			int stepCount = Integer.parseInt(splitUserInput[splitIndex]);
+		        			for (int i = 0; i < stepCount; i++) {
+		        				Critter.worldTimeStep();
+		        			}
+	        			} catch (Exception e1) {
+	        				System.out.print("Error processing: " + userInput + "\n");
 	        			}
+	        		} else {
+	        			Critter.worldTimeStep();
 	        		}
         		}
         	} else if (splitUserInput[splitIndex].equals("seed")) {
-        		if (splitUserInput.length > 2) {
+        		if (splitUserInput.length == 2) {
         			try {
 		        		splitIndex++;
 		        		long seedNumber = Long.valueOf(splitUserInput[splitIndex]); 
@@ -118,38 +123,44 @@ public class Main {
         			} catch (Exception e1) {
             			System.out.print("Error processing: " + userInput + "\n");
         			}
+        		} else {
+        			System.out.print("Error processing: " + userInput + "\n");
         		}
         		
         	} else if (splitUserInput[splitIndex].equals("make")) {
-        		splitIndex++;
-        		String className = new String(splitUserInput[splitIndex]);
-        		splitIndex++;
-        		if (splitUserInput.length == 3) {
-        			try {
-	            		String rawCount = new String(splitUserInput[splitIndex]);
-	            		int count = Integer.parseInt(rawCount);
-	            		if (count < 0) {
-	            			System.out.print("Error processing: " + userInput + "\n");
-	            		} else {
-	            			for (int i = 0; i < count; i++)
-		            			Critter.makeCritter(className);
-	            		}
-	            		
-        			} catch (InvalidCritterException e1) {
-        				//System.out.println(e1.toString());
-        				System.out.print("Error processing: " + userInput + "\n");
-        				break;
-        			} catch (Exception e2) {
-        				System.out.print("Error processing: " + userInput + "\n");
-        			}
-        		} else if (splitUserInput.length > 3) {
+        		if (splitUserInput.length <= 1) {
         			System.out.print("Error processing: " + userInput + "\n");
         		} else {
-        			try {
-        				Critter.makeCritter(className);
-        			} catch (InvalidCritterException e1) {
-        				System.out.print("Error processing: " + userInput + "\n");
-        			}
+	        		splitIndex++;
+	        		String className = new String(splitUserInput[splitIndex]);
+	        		splitIndex++;
+	        		if (splitUserInput.length == 3) {
+	        			try {
+		            		String rawCount = new String(splitUserInput[splitIndex]);
+		            		int count = Integer.parseInt(rawCount);
+		            		if (count < 0) {
+		            			System.out.print("Error processing: " + userInput + "\n");
+		            		} else {
+		            			for (int i = 0; i < count; i++)
+			            			Critter.makeCritter(className);
+		            		}
+		            		
+	        			} catch (InvalidCritterException e1) {
+	        				//System.out.println(e1.toString());
+	        				System.out.print("Error processing: " + userInput + "\n");
+	        				break;
+	        			} catch (Exception e2) {
+	        				System.out.print("Error processing: " + userInput + "\n");
+	        			}
+	        		} else if (splitUserInput.length > 3) {
+	        			System.out.print("Error processing: " + userInput + "\n");
+	        		} else {
+	        			try {
+	        				Critter.makeCritter(className);
+	        			} catch (InvalidCritterException e1) {
+	        				System.out.print("Error processing: " + userInput + "\n");
+	        			}
+	        		}
         		}
         		
         	} else if (splitUserInput[splitIndex].equals("stats")) {		
@@ -169,10 +180,6 @@ public class Main {
         	}
         	
         }
-        
-        
-        /* Write your code above */
         System.out.flush();
-
     }
 }
