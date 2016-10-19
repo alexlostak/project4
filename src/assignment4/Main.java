@@ -78,7 +78,9 @@ public class Main {
         
         CritterWorld.makeCritterWorld();
         boolean dontQuit = true;
+        
         while (dontQuit) {
+        	System.out.print("critters> ");
         	String userInput = kb.nextLine();
         	String[] splitUserInput = userInput.split("\\s+");
         	int splitIndex = 0;
@@ -103,21 +105,26 @@ public class Main {
         		splitIndex++;
         		String className = new String(splitUserInput[splitIndex]);
         		splitIndex++;
-        		if (splitUserInput.length > 2) {
-            		String rawCount = new String(splitUserInput[splitIndex]);
-            		int count = Integer.parseInt(rawCount);
-            		for (int i = 0; i < count; i++) {
-            			try {
-            			Critter.makeCritter(className);
-            			} catch (InvalidCritterException e1) {
-            				System.out.println(e1.toString());
-            			}
-            		}
+        		if (splitUserInput.length == 3) {
+        			try {
+	            		String rawCount = new String(splitUserInput[splitIndex]);
+	            		int count = Integer.parseInt(rawCount);
+	            		for (int i = 0; i < count; i++)
+	            			Critter.makeCritter(className);
+        			} catch (InvalidCritterException e1) {
+        				//System.out.println(e1.toString());
+        				System.out.print("Error processing: " + userInput + "\n");
+        				break;
+        			} catch (Exception e2) {
+        				System.out.print("Error processing: " + userInput + "\n");
+        			}
+        		} else if (splitUserInput.length > 3) {
+        			System.out.print("Error processing: " + userInput + "\n");
         		} else {
         			try {
         				Critter.makeCritter(className);
         			} catch (InvalidCritterException e1) {
-        				System.out.print(e1.toString());
+        				System.out.print("Error processing: " + userInput + "\n");
         			}
         		}
         		
@@ -131,10 +138,13 @@ public class Main {
         			runStatsMethod.invoke(null, Critter.getInstances(userInput));	// Input null because static method, second parameter is the list
         			System.out.println("here now");
         		} catch (Exception e){
-        			System.out.println(e.toString());
+        			//System.out.println(e.toString());
+        			System.out.print("Error processing: " + userInput);
         			return;
         		}
-        	};
+        	} else {
+        		System.out.print("Invalid command: " + userInput + "\n");
+        	}
         	
         }
         
