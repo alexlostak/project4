@@ -72,8 +72,8 @@ public class Main {
         //show
         //step
         //make
-        	//for stage one just initial with 100 Algae and 25 Craig
-        CritterWorld.makeCritterWorld();
+        //for stage one just initial with 100 Algae and 25 Craig
+        
         boolean dontQuit = true;
         while (dontQuit) {
         	String userInput = kb.next();
@@ -83,7 +83,40 @@ public class Main {
         		Critter.displayWorld();
         	} else if (userInput.equals("step")) {
         		Critter.worldTimeStep();
-        	};
+        		if (kb.hasNext()) {
+        			userInput = kb.next();
+        			int stepCount = Integer.parseInt(userInput);
+        			for (int i = 0; i < stepCount; i++) {
+        				Critter.worldTimeStep();
+        			}
+        		}
+        	} else if (userInput.equals("seed")) {
+        		userInput = kb.next();
+        		long seedNumber = Long.valueOf(userInput);
+        		Critter.setSeed(seedNumber);
+        	} else if (userInput.equals("make")) {
+        		userInput = kb.next();
+        		String className = new String(userInput);
+        		if (kb.hasNext()) {
+        			userInput = kb.next();
+            		String rawCount = new String(userInput);
+            		int count = Integer.parseInt(rawCount);
+            		for (int i = 0; i < count; i++) {
+            			try {
+            			Critter.makeCritter(myPackage + "." + className);
+            			} catch (InvalidCritterException e1) {
+            				System.out.println(e1.toString());
+            			}
+            		}
+        		} else {
+        			try {
+        				Critter.makeCritter(myPackage + "." + className);
+        			} catch (InvalidCritterException e1) {
+        				System.out.print(e1.toString());
+        			}
+        		}
+        		
+        	}
         	
         }
         
