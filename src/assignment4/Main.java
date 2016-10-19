@@ -90,13 +90,18 @@ public class Main {
         		Critter.displayWorld();
         	} else if (splitUserInput[splitIndex].equals("step")) {
         		splitIndex++;
-        		Critter.worldTimeStep();
-        		if (splitUserInput.length > 1) {
-        			int stepCount = Integer.parseInt(splitUserInput[splitIndex]);
-        			for (int i = 0; i < stepCount; i++) {
-        				Critter.worldTimeStep();
+        		if (splitUserInput.length == 1) { Critter.worldTimeStep(); }
+        		else if (splitUserInput.length == 2) {
+        			try{
+        				int stepCount = Integer.parseInt(splitUserInput[splitIndex]);
+        				for (int i = 0; i < stepCount; i++) {
+        					Critter.worldTimeStep();
+        				}
+        			} catch (Exception e) {
+        				System.out.println("Error processing: " + userInput);
         			}
         		}
+        		else { System.out.println("Error processing: " + userInput); }
         	} else if (splitUserInput[splitIndex].equals("seed")) {
         		splitIndex++;
         		long seedNumber = Long.valueOf(splitUserInput[splitIndex]);
@@ -129,21 +134,22 @@ public class Main {
         		}
         		
         	} else if (splitUserInput[splitIndex].equals("stats")) {		
-        		//userInput = kb.next();
-        		splitIndex += 1;
-        		String statClass = splitUserInput[splitIndex];
-        		try {
-        			Class<?> className = Class.forName(myPackage + "." + statClass);		// Get class of input
-        			Method runStatsMethod = className.getMethod("runStats", new Class<?>[]{List.class});
-        			runStatsMethod.invoke(null, Critter.getInstances(statClass));	// Input null because static method, second parameter is the list
-          		} catch (Exception e){
-        			System.out.println(e.toString());
-        			return;
+        		if ((splitUserInput.length > 2) || (splitUserInput.length < 2)) { System.out.println("Error processing: " + userInput); }
+        		else {
+        			splitIndex += 1;
+        			String statClass = splitUserInput[splitIndex];
+        			try {
+        				Class<?> className = Class.forName(myPackage + "." + statClass);		// Get class of input
+        				Method runStatsMethod = className.getMethod("runStats", new Class<?>[]{List.class});
+        				runStatsMethod.invoke(null, Critter.getInstances(statClass));	// Input null because static method, second parameter is the list
+        			} catch (Exception e){
+        				System.out.println("Error processing: " + userInput);
+        			}
         		}
-        	} else {
+       		} else {
         		System.out.print("Invalid command: " + userInput + "\n");
         	}
-        	
+        		
         }
         
         
