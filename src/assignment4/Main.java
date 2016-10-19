@@ -109,8 +109,13 @@ public class Main {
         			try {
 	            		String rawCount = new String(splitUserInput[splitIndex]);
 	            		int count = Integer.parseInt(rawCount);
-	            		for (int i = 0; i < count; i++)
-	            			Critter.makeCritter(className);
+	            		if (count < 0) {
+	            			System.out.print("Error processing: " + userInput + "\n");
+	            		} else {
+	            			for (int i = 0; i < count; i++)
+		            			Critter.makeCritter(className);
+	            		}
+	            		
         			} catch (InvalidCritterException e1) {
         				//System.out.println(e1.toString());
         				System.out.print("Error processing: " + userInput + "\n");
