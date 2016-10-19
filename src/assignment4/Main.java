@@ -76,6 +76,7 @@ public class Main {
         //make
         //for stage one just initial with 100 Algae and 25 Craig
         
+        CritterWorld.makeCritterWorld();
         boolean dontQuit = true;
         while (dontQuit) {
         	String userInput = kb.next();
@@ -119,12 +120,15 @@ public class Main {
         			}
         		}
         		
-        	} else if (userInput.equals("stats")) {		// Temporary control for runStats
+        	} else if (userInput.equals("stats")) {		
         		userInput = kb.next();
         		try {
         			Class<?> className = Class.forName(myPackage + "." + userInput);		// Get class of input
+        			System.out.println(className);
         			Method runStatsMethod = className.getMethod("runStats", new Class<?>[]{List.class});
+        			System.out.println("here");
         			runStatsMethod.invoke(null, Critter.getInstances(userInput));	// Input null because static method, second parameter is the list
+        			System.out.println("here now");
         		} catch (Exception e){
         			System.out.println(e.toString());
         			return;

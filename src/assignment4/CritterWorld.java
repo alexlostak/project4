@@ -16,7 +16,7 @@ public class CritterWorld {
 		newbornCritters = new HashSet<Critter>();
 		newborns = 0;
 		movedCritters = new HashSet<Critter>();
-		stageOneInit();
+		//stageOneInit();
 		
 	}
 	private static void stageOneInit() {

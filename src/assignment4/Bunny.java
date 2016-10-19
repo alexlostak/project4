@@ -19,9 +19,8 @@ public class Bunny extends Critter {
 
 	@Override
 	public boolean fight(String opponent) { 
-		
-		return false;
-		
+		if (opponent.equals("Algae")) { return true; }
+		else { return false; }
 	}
 
 }
