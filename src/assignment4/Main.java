@@ -85,22 +85,41 @@ public class Main {
         	String[] splitUserInput = userInput.split("\\s+");
         	int splitIndex = 0;
         	if (splitUserInput[splitIndex].equals("quit")) {
-        		dontQuit = false;
-        	} else if (splitUserInput[splitIndex].equals("show")) {
-        		Critter.displayWorld();
-        	} else if (splitUserInput[splitIndex].equals("step")) {
-        		splitIndex++;
-        		Critter.worldTimeStep();
         		if (splitUserInput.length > 1) {
-        			int stepCount = Integer.parseInt(splitUserInput[splitIndex]);
-        			for (int i = 0; i < stepCount; i++) {
-        				Critter.worldTimeStep();
-        			}
+        			System.out.print("Error processing: " + userInput + "\n");
+        		} else {
+        		dontQuit = false;
+        		}
+        	} else if (splitUserInput[splitIndex].equals("show")) {
+        		if (splitUserInput.length > 1) {
+        			System.out.print("Error processing: " + userInput + "\n");
+        		} else {
+        			Critter.displayWorld();
+        		}
+        	} else if (splitUserInput[splitIndex].equals("step")) {
+        		if (splitUserInput.length > 2) {
+        			System.out.print("Error processing: " + userInput + "\n");
+        		} else {
+	        		splitIndex++;
+	        		Critter.worldTimeStep();
+	        		if (splitUserInput.length > 1) {
+	        			int stepCount = Integer.parseInt(splitUserInput[splitIndex]);
+	        			for (int i = 0; i < stepCount; i++) {
+	        				Critter.worldTimeStep();
+	        			}
+	        		}
         		}
         	} else if (splitUserInput[splitIndex].equals("seed")) {
-        		splitIndex++;
-        		long seedNumber = Long.valueOf(splitUserInput[splitIndex]);
-        		Critter.setSeed(seedNumber);
+        		if (splitUserInput.length > 2) {
+        			try {
+		        		splitIndex++;
+		        		long seedNumber = Long.valueOf(splitUserInput[splitIndex]); 
+		        		Critter.setSeed(seedNumber);
+        			} catch (Exception e1) {
+            			System.out.print("Error processing: " + userInput + "\n");
+        			}
+        		}
+        		
         	} else if (splitUserInput[splitIndex].equals("make")) {
         		splitIndex++;
         		String className = new String(splitUserInput[splitIndex]);
