@@ -129,17 +129,15 @@ public class Main {
         		}
         		
         	} else if (splitUserInput[splitIndex].equals("stats")) {		
-        		userInput = kb.next();
+        		//userInput = kb.next();
+        		splitIndex += 1;
+        		String statClass = splitUserInput[splitIndex];
         		try {
-        			Class<?> className = Class.forName(myPackage + "." + userInput);		// Get class of input
-        			System.out.println(className);
+        			Class<?> className = Class.forName(myPackage + "." + statClass);		// Get class of input
         			Method runStatsMethod = className.getMethod("runStats", new Class<?>[]{List.class});
-        			System.out.println("here");
-        			runStatsMethod.invoke(null, Critter.getInstances(userInput));	// Input null because static method, second parameter is the list
-        			System.out.println("here now");
-        		} catch (Exception e){
-        			//System.out.println(e.toString());
-        			System.out.print("Error processing: " + userInput);
+        			runStatsMethod.invoke(null, Critter.getInstances(statClass));	// Input null because static method, second parameter is the list
+          		} catch (Exception e){
+        			System.out.println(e.toString());
         			return;
         		}
         	} else {
