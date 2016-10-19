@@ -107,14 +107,14 @@ public class Main {
             		int count = Integer.parseInt(rawCount);
             		for (int i = 0; i < count; i++) {
             			try {
-            			Critter.makeCritter(myPackage + "." + className);
+            			Critter.makeCritter(className);
             			} catch (InvalidCritterException e1) {
             				System.out.println(e1.toString());
             			}
             		}
         		} else {
         			try {
-        				Critter.makeCritter(myPackage + "." + className);
+        				Critter.makeCritter(className);
         			} catch (InvalidCritterException e1) {
         				System.out.print(e1.toString());
         			}
