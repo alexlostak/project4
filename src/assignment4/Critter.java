@@ -164,7 +164,7 @@ public abstract class Critter {
 	public static void makeCritter(String critter_class_name) throws InvalidCritterException {
 		// Use Class.forName() and newInstance (which I think would be Class.newInstance()
 		try{
-			Class className = Class.forName(critter_class_name);
+			Class<?> className = Class.forName(myPackage + "." + critter_class_name);
 			Critter newCritter = (Critter) className.newInstance();	// Should work; if not a real subclass then will fail in general
 			newCritter.energy = Params.start_energy;	// Initialize with start energy
 			newCritter.initializePos();
@@ -185,8 +185,19 @@ public abstract class Critter {
 	 * @throws InvalidCritterException
 	 */
 	public static List<Critter> getInstances(String critter_class_name) throws InvalidCritterException {
-		List<Critter> result = new java.util.ArrayList<Critter>();
-		return result;
+		try{
+			//System.out.println("Inside getInstances method");
+			List<Critter> result = new java.util.ArrayList<Critter>();	// List of critters of specified class
+			Set<Critter> crits = CritterWorld.getCritterList();			// Get our list of critters
+			Class<?> className = Class.forName(myPackage + "." + critter_class_name);		// Get class of input
+			for (Critter c : crits){
+				if (className == c.getClass()) { result.add(c); }		// Check to see if classes are the same; if so, add to list to return
+			}
+			return result;												// Return list of specified critters
+			
+		} catch (Exception e){		// If class name is not valid, throw InvalidCritterExcetption
+			throw new InvalidCritterException(critter_class_name);
+		}
 	}
 	
 	/**
@@ -269,6 +280,21 @@ public abstract class Critter {
 	 * Clear the world of all critters, dead and alive
 	 */
 	public static void clearWorld() {
+	}
+	
+	
+	/*
+	 * Method for refreshing new Algae critters in the world after every time step
+	 */
+	private static void createNewAlgae(){
+		try{
+			for (int i = 0; i < Params.refresh_algae_count; i += 1){
+				makeCritter("Algae");
+			}
+		} catch (InvalidCritterException e) {
+			System.out.println(e.toString());
+			return;
+		}
 	}
 	
 	private String getPositionKey() {
@@ -392,6 +418,7 @@ public abstract class Critter {
 			//deal with encounter
 		CritterWorld.addNewbornsToPop();		// Add newborns at the end of the time step
 		CritterWorld.clearMovedCritters();		// Clear list of critters that have moved
+		createNewAlgae();						// Add new algae to the world
 	}
 	
 

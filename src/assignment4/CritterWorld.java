@@ -24,7 +24,7 @@ public class CritterWorld {
 		//add 25 Craig
 		try {
 			for (int i = 0; i < 100; i++) {
-				Critter.makeCritter("assignment4.Algae");
+				Critter.makeCritter("Algae");
 			}
 		} catch (InvalidCritterException e) {
 			System.out.println(e.toString());
@@ -32,7 +32,7 @@ public class CritterWorld {
 		}
 		try {
 			for (int i = 0; i < 25; i++) {
-				Critter.makeCritter("assignment4.Craig");
+				Critter.makeCritter("Craig");
 			}
 		} catch (InvalidCritterException e) {
 			System.out.println(e.toString());
@@ -64,7 +64,7 @@ public class CritterWorld {
 		newbornCritters.clear(); //Clear newborn list
 		population += newborns;						//Add newborns to population total
 		newborns = 0;								//Clear number of newborns
-		//System.out.println("Current population: " + population);
+		//System.out.println("Current population: " + population); //Population count check
 	}
 	
 	public static void addMovedCritter(Critter c){

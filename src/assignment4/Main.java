@@ -11,8 +11,10 @@
  * Fall 2016
  */
 package assignment4; // cannot be in default package
+import java.util.List;
 import java.util.Scanner;
 import java.io.*;
+import java.lang.reflect.Method;
 
 
 /*
@@ -83,6 +85,24 @@ public class Main {
         		Critter.displayWorld();
         	} else if (userInput.equals("step")) {
         		Critter.worldTimeStep();
+        	}
+        	
+        	
+        	
+        	
+        	
+        	
+        	
+        	else if (userInput.equals("stats")) {		// Temporary control for runStats
+        		userInput = kb.next();
+        		try {
+        			Class<?> className = Class.forName(myPackage + "." + userInput);		// Get class of input
+        			Method runStatsMethod = className.getMethod("runStats", new Class<?>[]{List.class});
+        			runStatsMethod.invoke(null, Critter.getInstances(userInput));	// Input null because static method, second parameter is the list
+        		} catch (Exception e){
+        			System.out.println(e.toString());
+        			return;
+        		}
         	};
         	
         }
