@@ -79,31 +79,31 @@ public class Main {
         	int splitIndex = 0;
         	if (splitUserInput[splitIndex].equals("quit")) {
         		if (splitUserInput.length > 1) {
-        			System.out.print("Error processing: " + userInput + "\n");
+        			System.out.print("error processing: " + userInput + "\n");
         		} else {
         		dontQuit = false;
         		}
         	} else if (splitUserInput[splitIndex].equals("show")) {
         		if (splitUserInput.length > 1) {
-        			System.out.println("Error processing: " + userInput);
+        			System.out.println("error processing: " + userInput);
         		} else {
         			Critter.displayWorld();
         		}
         	} else if (splitUserInput[splitIndex].equals("step")) {
         		if (splitUserInput.length > 2) {
-        			System.out.println("Error processing: " + userInput);
+        			System.out.println("error processing: " + userInput);
         		} else {
 	        		splitIndex++;
 	        		if (splitUserInput.length > 1) {
 	        			try {
 		        			int stepCount = Integer.parseInt(splitUserInput[splitIndex]);
-		        			if (stepCount < 1) { System.out.println("Error processing: " + userInput); }
+		        			if (stepCount < 1) { System.out.println("error processing: " + userInput); }
 		        			for (int i = 0; i < stepCount; i++) {
 		        				Critter.worldTimeStep();
 		        			}
 	        			} catch (Exception e1) {
 
-	        				System.out.println("Error processing: " + userInput);
+	        				System.out.println("error processing: " + userInput);
 	        			}
 	        		} else {
 	        			Critter.worldTimeStep();
@@ -113,18 +113,22 @@ public class Main {
         		if (splitUserInput.length == 2) {
         			try {
 		        		splitIndex++;
-		        		long seedNumber = Long.valueOf(splitUserInput[splitIndex]); 
-		        		Critter.setSeed(seedNumber);
+		        		long seedNumber = Long.valueOf(splitUserInput[splitIndex]);
+		        		if (seedNumber > 0) {
+		        			Critter.setSeed(seedNumber);
+		        		} else {
+	            			System.out.print("error processing: " + userInput + "\n");
+		        		}
         			} catch (Exception e1) {
-            			System.out.print("Error processing: " + userInput + "\n");
+            			System.out.print("error processing: " + userInput + "\n");
         			}
         		} else {
-        			System.out.print("Error processing: " + userInput + "\n");
+        			System.out.print("error processing: " + userInput + "\n");
         		}
         		
         	} else if (splitUserInput[splitIndex].equals("make")) {
         		if (splitUserInput.length <= 1) {
-        			System.out.print("Error processing: " + userInput + "\n");
+        			System.out.print("error processing: " + userInput + "\n");
         		} else {
 	        		splitIndex++;
 	        		String className = new String(splitUserInput[splitIndex]);
@@ -134,31 +138,31 @@ public class Main {
 		            		String rawCount = new String(splitUserInput[splitIndex]);
 		            		int count = Integer.parseInt(rawCount);
 		            		if (count < 0) {
-		            			System.out.print("Error processing: " + userInput + "\n");
+		            			System.out.print("error processing: " + userInput + "\n");
 		            		} else {
 		            			for (int i = 0; i < count; i++)
 			            			Critter.makeCritter(className);
 		            		}
 		            		
 	        			} catch (InvalidCritterException e1) {
-	        				System.out.print("Error processing: " + userInput + "\n");
+	        				System.out.print("error processing: " + userInput + "\n");
 	        				break;
 	        			} catch (Exception e2) {
-	        				System.out.print("Error processing: " + userInput + "\n");
+	        				System.out.print("error processing: " + userInput + "\n");
 	        			}
 	        		} else if (splitUserInput.length > 3) {
-	        			System.out.print("Error processing: " + userInput + "\n");
+	        			System.out.print("error processing: " + userInput + "\n");
 	        		} else {
 	        			try {
 	        				Critter.makeCritter(className);
 	        			} catch (InvalidCritterException e1) {
-	        				System.out.print("Error processing: " + userInput + "\n");
+	        				System.out.print("error processing: " + userInput + "\n");
 	        			}
 	        		}
         		}
         		
         	} else if (splitUserInput[splitIndex].equals("stats")) {		
-        		if ((splitUserInput.length > 2) || (splitUserInput.length < 2)) { System.out.println("Error processing: " + userInput); }
+        		if ((splitUserInput.length > 2) || (splitUserInput.length < 2)) { System.out.println("error processing: " + userInput); }
         		else {
         			splitIndex += 1;
         			String statClass = splitUserInput[splitIndex];
@@ -167,11 +171,11 @@ public class Main {
         				Method runStatsMethod = className.getMethod("runStats", new Class<?>[]{List.class});
         				runStatsMethod.invoke(null, Critter.getInstances(statClass));	// Input null because static method, second parameter is the list
         			} catch (Exception e){
-        				System.out.println("Error processing: " + userInput);
+        				System.out.println("error processing: " + userInput);
         			}
         		}
        		} else {
-        		System.out.print("Invalid command: " + userInput + "\n");
+        		System.out.print("invalid command: " + userInput + "\n");
         	}
         		
         }
