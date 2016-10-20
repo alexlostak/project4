@@ -77,16 +77,11 @@ public abstract class Critter {
 		else if (direction == 5) { this.x_coord += -speed; this.y_coord +=  speed; }
 		else if (direction == 6) { 					       this.y_coord +=  speed; }
 		else if (direction == 7) { this.x_coord +=  speed; this.y_coord +=  speed; }
-		
 		//Screen wrap-around catches! (Negative and over sizes)
 		if (this.x_coord > Params.world_width)  { this.x_coord = this.x_coord - (Params.world_width + 1);  }
 		if (this.y_coord > Params.world_height) { this.y_coord = this.y_coord - (Params.world_height + 1); }
-		
 		if (this.x_coord < 0) { this.x_coord = this.x_coord + (Params.world_width + 1);  }
 		if (this.y_coord < 0) { this.y_coord = this.y_coord + (Params.world_height + 1); }
-		
-		//System.out.println("Critter x coordinate: " + this.x_coord);  //Testing
-		//System.out.println("\tCritter y coordinate: " + this.y_coord);
 	}
 	
 	/**
@@ -98,27 +93,23 @@ public abstract class Critter {
 	 * @param direction
 	 */
 	protected final void walk(int direction) {
-		System.out.println(this.toString());
-		System.out.println("Moving");
-		if (!(encounter_state)){							// General call
+		if (!(encounter_state)){							
 			if (!(CritterWorld.hasCritterMoved(this))) {
-				System.out.println("Has not moved yet");
 				move(1, direction);
 				CritterWorld.addMovedCritter(this);
 			}
 			this.energy -= Params.walk_energy_cost;
-			//System.out.println(this.energy);
 		}
-		else if (encounter_state){							// Called for encounter
+		else if (encounter_state){							
 				int xTemp = this.x_coord;
 				int yTemp = this.y_coord;
 				move(1, direction);
 				String key = getPositionKey();
-				if (positionLog.containsKey(key)){	// If spot is taken put Critter back at original location
+				//If spot is taken put Critter back at original location
+				if (positionLog.containsKey(key)){	
 					this.x_coord = xTemp;
 					this.y_coord = yTemp;
 				}
-				// Couldn't we just add the key now? Or would that throw an error? ---------
 				this.energy -= Params.walk_energy_cost;
 		}
 	}
@@ -144,11 +135,11 @@ public abstract class Critter {
 			int yTemp = this.y_coord;
 			move(2, direction);
 			String key = getPositionKey();
-			if (positionLog.containsKey(key)){	// If spot is taken put Critter back at original location
+			//If spot is taken put Critter back at original location
+			if (positionLog.containsKey(key)){	
 				this.x_coord = xTemp;
 				this.y_coord = yTemp;
 			}
-			// Couldn't we just add the key now? Or would that throw an error? ---------
 			this.energy -= Params.run_energy_cost;
 		}
 	}
@@ -164,9 +155,8 @@ public abstract class Critter {
 	protected final void reproduce(Critter offspring, int direction) {
 		if (this.energy < Params.min_reproduce_energy){ return; }
 		//Energy
-		//System.out.println("Parent initial energy: " + this.energy);
-		offspring.energy = this.energy/2;					// Half of parent's energy rounded down to child
-		this.energy = (this.energy/2) + (this.energy%2);	// Half of parent's energy rounded up to parent
+		offspring.energy = this.energy / 2;					// Half of parent's energy rounded down to child
+		this.energy = (this.energy / 2) + (this.energy % 2);	// Half of parent's energy rounded up to parent
 		//Placement
 		int x_temp = this.x_coord;
 		int y_temp = this.y_coord;
@@ -177,7 +167,6 @@ public abstract class Critter {
 		this.y_coord = y_temp;
 		//Store to be added later
 		CritterWorld.addNewborn(offspring);
-		//System.out.println("Parent E: " + this.energy + " Child E: " + offspring.energy);
 	}
 
 	public abstract void doTimeStep();
@@ -195,11 +184,10 @@ public abstract class Critter {
 	 */
 	
 	public static void makeCritter(String critter_class_name) throws InvalidCritterException {
-		// Use Class.forName() and newInstance (which I think would be Class.newInstance()
 		try{
 			Class<?> className = Class.forName(myPackage + "." + critter_class_name);
-			Critter newCritter = (Critter) className.newInstance();	// Should work; if not a real subclass then will fail in general
-			newCritter.energy = Params.start_energy;	// Initialize with start energy
+			Critter newCritter = (Critter) className.newInstance();
+			newCritter.energy = Params.start_energy;
 			newCritter.initializePos();
 			CritterWorld.addCritter(newCritter);
 		} catch (Exception e){		
@@ -207,10 +195,7 @@ public abstract class Critter {
 		}
 		return;
 	}
-	
-	
-	
-	
+
 	/**
 	 * Gets a list of critters of a specific type.
 	 * @param critter_class_name What kind of Critter is to be listed.  Unqualified class name.
@@ -219,16 +204,15 @@ public abstract class Critter {
 	 */
 	public static List<Critter> getInstances(String critter_class_name) throws InvalidCritterException {
 		try{
-			//System.out.println("Inside getInstances method");
-			List<Critter> result = new java.util.ArrayList<Critter>();	// List of critters of specified class
-			Set<Critter> crits = CritterWorld.getCritterList();			// Get our list of critters
-			Class<?> className = Class.forName(myPackage + "." + critter_class_name);		// Get class of input
+			List<Critter> result = new java.util.ArrayList<Critter>();
+			Set<Critter> crits = CritterWorld.getCritterList();
+			Class<?> className = Class.forName(myPackage + "." + critter_class_name);
 			for (Critter c : crits){
-				if (className == c.getClass()) { result.add(c); }		// Check to see if classes are the same; if so, add to list to return
+				if (className == c.getClass()) { result.add(c); }
 			}
-			return result;												// Return list of specified critters
+			return result;
 			
-		} catch (Exception e){		// If class name is not valid, throw InvalidCritterExcetption
+		} catch (Exception e){
 			throw new InvalidCritterException(critter_class_name);
 		}
 	}
@@ -314,7 +298,6 @@ public abstract class Critter {
 	 */
 	public static void clearWorld() {
 	}
-	
 	
 	/**
 	 * Adds Algae critters to the world every step. The amount of Algae added is
@@ -416,26 +399,17 @@ public abstract class Critter {
 				Critter b = critters.get(1);
 				boolean aFight = a.fight(b.toString());
 				boolean bFight = b.fight(a.toString());
-				//need to check that neither moved
 				boolean aRan = a.ranFromFight(currentPositionKey);
 				boolean bRan = b.ranFromFight(currentPositionKey);
 				if (!(aRan && bRan)) {
 					int aFightRoll = 0;
 					int bFightRoll = 0;
-					boolean aIsNegative = a.energy < 0;
-					boolean bIsNegative = b.energy < 0;
-//					if (a.energy < 0) {
-//						System.out.println("a energy is negative" + a.energy);
-//						aIsNegative = true;
-//					}
-//					if (b.energy < 0) {
-//						System.out.println("b energy is negative" + b.energy);
-//						bIsNegative = true;
-//					}
-					if (aIsNegative == true) {
+					boolean aIsDead = a.energy <= 0;
+					boolean bIsDead = b.energy <= 0;
+					if (aIsDead == true) {
 						a.energy = 0;
 						critters.remove(0);
-					} else if (bIsNegative == true) {
+					} else if (bIsDead== true) {
 						b.energy = 0;
 						critters.remove(1);
 					} else {
@@ -468,14 +442,20 @@ public abstract class Critter {
 			}
 			return;
 		}
-		
-		public static void handleEncounters (Set critters) {
-			Iterator worldIt = critters.iterator();
+	/**
+	 * Takes care of all instances where multiple Critters occupy the same position
+	 * @param Set<Critters> set of the critters in the CritterWorld
+	 */
+		public static void handleEncounters (Set<Critter> critters) {
+			Iterator<Critter> worldIt = critters.iterator();
 			while (worldIt.hasNext()) {
 				Critter c = (Critter) worldIt.next();
 				ArrayList<Critter> positionCritterArray = getPositionCritterArray(c, positionLog);
-				if (hasEncounter(positionCritterArray) == true) {
-					resolveEncounter(positionCritterArray);
+				//need to check not pointing to empty array list
+				if (positionCritterArray != null) {
+					if (hasEncounter(positionCritterArray) == true) {
+						resolveEncounter(positionCritterArray);
+					}
 				}
 			}
 		}	
@@ -484,8 +464,11 @@ public abstract class Critter {
 			return positionLog;
 		}
 	
+		/**
+		 * Advances the entire CritterWorld forward one time step
+		 */
 		public static void worldTimeStep() {
-			Set<Critter> critters = CritterWorld.getCritterList();		// Create an array from our current list of Critters
+			Set<Critter> critters = CritterWorld.getCritterList();
 			Iterator<Critter> worldIt = critters.iterator();
 			positionLog.clear();
 			positionLog = new HashMap<String, ArrayList<Critter>>();
@@ -505,7 +488,6 @@ public abstract class Critter {
 				}
 			}
 		removeWorldDead(critters);
-				
 		encounter_state = true;
 		handleEncounters(critters);
 		encounter_state = false;
@@ -515,24 +497,11 @@ public abstract class Critter {
 		createNewAlgae();						// Add new algae to the world
 	}
 	
-
-	private static void printRowBorder(int rowLength) {
-		for (int i = 0; i < rowLength; i++) {
-			if (i == 0) {
-				System.out.print("+");
-				
-			} else if (i == (rowLength - 1)) {
-				System.out.print("+");
-			} else {
-				System.out.print("-");
-			};
-		}
-		return;
-		
-	}
+	/**
+	 * Displays the current state of the CritterWorld
+	*/
 	public static void displayWorld() {
 		Set<Critter> critterWorld = CritterWorld.getCritterList();
-		int displayLength = (Params.world_height + 2) * (Params.world_width + 2);
 		Critter[][] display = new Critter[Params.world_width + 2][Params.world_height + 2];
 		for (Critter c : critterWorld) {
 			display[c.x_coord + 1][c.y_coord + 1] = c;
@@ -545,43 +514,32 @@ public abstract class Critter {
 		int displayHeight = Params.world_height + 2;
 		int displayWidth = Params.world_width + 2;
 		String printStream = new String();
-			for (int y = 0; y < displayHeight; y++) {
-				
-				for (int x = 0; x < displayWidth; x++) {
-					//check for border
-					if ((x == 0) || (y == 0)) {
-						if ((x == 0) && (y == 0)) {printStream += "+";}
-						else if (x == (displayWidth - 1)) {printStream += "+\n";}
-						else if (y == (displayHeight - 1)) {printStream += "+";;}
-						else if (x == 0) {printStream += "|";}
-						else if (y == 0) {printStream += "-";}
-					} else if (x == (displayWidth - 1)) {
-						if (y == displayHeight -1) {printStream += "+\n";}
-						else {printStream += "|\n";}
-		 			} else if (y == (displayHeight - 1)) {
-		 				printStream += "-";
-		 				
-					}
-		 			else {
-		 				//if this far, then not the border
-		 				//check if critter
-		 				//if so print critter
-		 				//else print space
-		 				Critter critterToPrint = display[x][y];
-		 				if (critterToPrint != null) {
-		 					printStream += critterToPrint.toString();
-		 				} else {
-		 					printStream += " ";
-		 				}
-		 			}
+		for (int y = 0; y < displayHeight; y++) {
+			for (int x = 0; x < displayWidth; x++) {
+				//check for border
+				if ((x == 0) || (y == 0)) {
+					if ((x == 0) && (y == 0)) {printStream += "+";}
+					else if (x == (displayWidth - 1)) {printStream += "+\n";}
+					else if (y == (displayHeight - 1)) {printStream += "+";;}
+					else if (x == 0) {printStream += "|";}
+					else if (y == 0) {printStream += "-";}
+				} else if (x == (displayWidth - 1)) {
+					if (y == displayHeight -1) {printStream += "+\n";}
+					else {printStream += "|\n";}
+	 			} else if (y == (displayHeight - 1)) {
+	 				printStream += "-";
+	 				
 				}
-				
+	 			else {
+	 				Critter critterToPrint = display[x][y];
+	 				if (critterToPrint != null) {
+	 					printStream += critterToPrint.toString();
+	 				} else {
+	 					printStream += " ";
+	 				}
+	 			}
 			}
-		
+		}
 		System.out.print(printStream);
-		
-		
-		
-		
 	}
 }
