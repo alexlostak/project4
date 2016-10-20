@@ -1,6 +1,0 @@
-Process for Pushing to Repo
-
-git add . 
-git commit -m “message detailing commit”
-git push origin master -u
-git pull
