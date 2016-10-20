@@ -327,7 +327,7 @@ public abstract class Critter {
 	private String getPositionKey() {
 		int x = x_coord;
 		int y = y_coord;
-		return (Integer.toString(x) + Integer.toString(y));
+		return ("x" + Integer.toString(x) + "y" + Integer.toString(y));
 	}
 	
 	/**
@@ -351,7 +351,6 @@ public abstract class Critter {
 		Iterator<Critter> worldIt = critters.iterator();
 		while (worldIt.hasNext()) {								// Iterate through world
 			Critter c = (Critter) worldIt.next();
-			c.energy = c.energy - Params.rest_energy_cost;		// Subtract rest energy
 			if(c.energy <= 0) {									// Check if dead
 				worldIt.remove();								// Remove from worl if dead
 			}
@@ -407,7 +406,7 @@ public abstract class Critter {
 				boolean bFight = b.fight(a.toString());
 				boolean aRan = a.ranFromFight(currentPositionKey);
 				boolean bRan = b.ranFromFight(currentPositionKey);
-				if (!(aRan && bRan)) {
+				if (!(aRan || bRan)) {
 					int aFightRoll = 0;
 					int bFightRoll = 0;
 					boolean aIsDead = a.energy <= 0;
@@ -434,15 +433,11 @@ public abstract class Critter {
 						}
 					}
 				} else if (aRan && bRan) {
-					b.energy = 0;
 					critters.remove(1);
-					a.energy = 0;
 					critters.remove(0);
 				}else if (aRan) {
-					a.energy = 0;
 					critters.remove(0);
 				} else if (bRan) {
-					b.energy = 0;
 					critters.remove(1);
 				}
 			}
@@ -486,24 +481,25 @@ public abstract class Critter {
 			Set<Critter> critters = CritterWorld.getCritterList();
 			Iterator<Critter> worldIt = critters.iterator();
 			positionLog.clear();
-			positionLog = new HashMap<String, ArrayList<Critter>>();
+			Map followPosLog = positionLog;
 			while(worldIt.hasNext()) {
 				Critter c = (Critter) worldIt.next();
 				c.doTimeStep();
-				if (c.energy <= 0) {}
-				String positionKey = c.getPositionKey();
-				ArrayList<Critter> positionList = positionLog.get(positionKey);
-				if (positionList != null) {
-					//add critter to list of critters
-					positionList.add(c);
-				} else {
-					//add critter with hashcode of position
-					positionList = new ArrayList<Critter>();
-					positionList.add(c);
-					positionLog.put(positionKey, positionList);
+				c.energy -= Params.rest_energy_cost;
+				if (c.energy > 0) {
+					String positionKey = c.getPositionKey();
+					ArrayList<Critter> positionList = positionLog.get(positionKey);
+					if (positionList != null) {
+						//add critter to list of critters
+						positionList.add(c);
+					} else {
+						//add critter with hashcode of position
+						positionList = new ArrayList<Critter>();
+						positionList.add(c);
+						positionLog.put(positionKey, positionList);
+					}
 				}
 			}
-		//removeWorldDead(critters);
 		encounter_state = true;
 		handleEncounters(critters);
 		encounter_state = false;
