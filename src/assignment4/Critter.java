@@ -131,7 +131,6 @@ public abstract class Critter {
 			this.energy -= Params.run_energy_cost;
 		}
 		else if (encounter_state){
-			System.out.println("In run()");
 			int xTemp = this.x_coord;
 			int yTemp = this.y_coord;
 			move(2, direction);
