@@ -69,12 +69,6 @@ public class Main {
         }
 
         /* Do not alter the code above for your submission. */
-        /* Write your code below. */
-        //quit
-        //show
-        //step
-        //make
-        //for stage one just initial with 100 Algae and 25 Craig
         
         CritterWorld.makeCritterWorld();
         boolean dontQuit = true;
@@ -108,7 +102,7 @@ public class Main {
 		        				Critter.worldTimeStep();
 		        			}
 	        			} catch (Exception e1) {
-	        				//System.out.println(e1.toString());
+
 	        				System.out.println("Error processing: " + userInput);
 	        			}
 	        		} else {
@@ -147,7 +141,6 @@ public class Main {
 		            		}
 		            		
 	        			} catch (InvalidCritterException e1) {
-	        				//System.out.println(e1.toString());
 	        				System.out.print("Error processing: " + userInput + "\n");
 	        				break;
 	        			} catch (Exception e2) {
