@@ -451,7 +451,7 @@ public abstract class Critter {
 	
 	/**
 	 * Takes care of all instances where multiple Critters occupy the same position
-	 * @param Set<Critters> set of the critters in the CritterWorld
+	 * @param critters set of the critters in the CritterWorld
 	 */
 		public static void handleEncounters (Set<Critter> critters) {
 			Iterator<Critter> worldIt = critters.iterator();

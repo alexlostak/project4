@@ -42,7 +42,7 @@ public class CritterWorld {
 	
 	/**
 	 * Adds Critter to myCritters
-	 * @param Critter c the critter to be added to the world
+	 * @param c the critter to be added to the world
 	 */
 	public static void addCritter(Critter c){
 		myCritters.add(c);					
@@ -75,7 +75,7 @@ public class CritterWorld {
 	
 	/**
 	 * Adds Critter to set of newborn Critters to be added to world at end of time step
-	 * @param Critter c the critter to be added to the world
+	 * @param c the critter to be added to the world
 	 */
 	public static void addNewborn(Critter c){
 		newbornCritters.add(c);					
@@ -93,7 +93,7 @@ public class CritterWorld {
 	
 	/**
 	 * Adds Critter to list of movedCritters
-	 * @param Critter c the critter to be added to the list of moved critters
+	 * @param c the critter to be added to the list of moved critters
 	 */
 	public static void addMovedCritter(Critter c){
 		movedCritters.add(c);
@@ -108,7 +108,7 @@ public class CritterWorld {
 	
 	/**
 	 * Determines if Critter has moved this time step
-	 * @param Critter c the critter to check if moved
+	 * @param c the critter to check if moved
 	 */
 	public static boolean hasCritterMoved(Critter c){
 		return movedCritters.contains(c);
