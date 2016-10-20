@@ -317,6 +317,7 @@ public abstract class Critter {
 		
 		while (worldIt.hasNext()) {
 			Critter c = (Critter) worldIt.next();
+			//may need to subtract energy from actual critter
 			int totalEnergy = c.energy - Params.rest_energy_cost;
 			if(totalEnergy <= 0) {
 				worldIt.remove();
@@ -356,23 +357,47 @@ public abstract class Critter {
 				if (!(aRan && bRan)) {
 					int aFightRoll = 0;
 					int bFightRoll = 0;
-					if (aFight)
-						aFightRoll = getRandomInt(a.energy);
-					if (bFight)
-						bFightRoll = getRandomInt(b.energy);
-					if ((aFightRoll >= bFightRoll)) {
-						a.winEncounter(b);
-						critters.remove(1); 
-					} else if (aFightRoll < bFightRoll) {
-						b.winEncounter(a);
+					boolean aIsNegative = a.energy < 0;
+					boolean bIsNegative = b.energy < 0;
+//					if (a.energy < 0) {
+//						System.out.println("a energy is negative" + a.energy);
+//						aIsNegative = true;
+//					}
+//					if (b.energy < 0) {
+//						System.out.println("b energy is negative" + b.energy);
+//						bIsNegative = true;
+//					}
+					if (aIsNegative == true) {
+						a.energy = 0;
 						critters.remove(0);
+					} else if (bIsNegative == true) {
+						b.energy = 0;
+						critters.remove(1);
+					} else {
+						if (aFight)
+							aFightRoll = getRandomInt(a.energy);
+						if (bFight)
+							bFightRoll = getRandomInt(b.energy);
+						if ((aFightRoll >= bFightRoll)) {
+							a.winEncounter(b);
+							b.energy = 0;
+							critters.remove(1); 
+						} else if (aFightRoll < bFightRoll) {
+							b.winEncounter(a);
+							a.energy = 0;
+							critters.remove(0);
+						}
 					}
 				} else if (aRan && bRan) {
+					b.energy = 0;
 					critters.remove(1);
+					a.energy = 0;
 					critters.remove(0);
 				}else if (aRan) {
+					a.energy = 0;
 					critters.remove(0);
 				} else if (bRan) {
+					b.energy = 0;
 					critters.remove(1);
 				}
 			}
@@ -414,8 +439,12 @@ public abstract class Critter {
 					positionLog.put(positionKey, new ArrayList<Critter>());
 				}
 			}
-			removeWorldDead(critters);
+		removeWorldDead(critters);	
 			//deal with encounter
+		encounter_state = true;
+		handleEncounters(critters);
+		encounter_state = false;
+		removeWorldDead(critters);
 		CritterWorld.addNewbornsToPop();		// Add newborns at the end of the time step
 		CritterWorld.clearMovedCritters();		// Clear list of critters that have moved
 		createNewAlgae();						// Add new algae to the world

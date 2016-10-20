@@ -102,14 +102,15 @@ public class Main {
 	        		splitIndex++;
 	        		Critter.worldTimeStep();
 	        		if (splitUserInput.length > 1) {
-	        			try {
+//	        			try {
 		        			int stepCount = Integer.parseInt(splitUserInput[splitIndex]);
 		        			for (int i = 0; i < stepCount; i++) {
 		        				Critter.worldTimeStep();
 		        			}
-	        			} catch (Exception e1) {
-	        				System.out.print("Error processing: " + userInput + "\n");
-	        			}
+//	        			} catch (Exception e1) {
+//	        				System.out.println(e1.toString());
+//	        				System.out.print("Error processing: " + userInput + "\n");
+//	        			}
 	        		} else {
 	        			Critter.worldTimeStep();
 	        		}
