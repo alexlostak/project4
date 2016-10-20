@@ -350,7 +350,6 @@ public abstract class Critter {
 		Iterator<Critter> worldIt = critters.iterator();
 		while (worldIt.hasNext()) {								// Iterate through world
 			Critter c = (Critter) worldIt.next();
-			System.out.println("Current Energy: " + c.energy);
 			c.energy = c.energy - Params.rest_energy_cost;		// Subtract rest energy
 			if(c.energy <= 0) {									// Check if dead
 				worldIt.remove();								// Remove from worl if dead

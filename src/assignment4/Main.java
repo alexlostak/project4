@@ -103,7 +103,6 @@ public class Main {
 		        				Critter.worldTimeStep();
 		        			}
 	        			} catch (Exception e1) {
-
 	        				System.out.print("error processing: " + userInput + "\n");
 	        			}
 	        		} else {
