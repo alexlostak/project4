@@ -85,27 +85,41 @@ public class Main {
         	String[] splitUserInput = userInput.split("\\s+");
         	int splitIndex = 0;
         	if (splitUserInput[splitIndex].equals("quit")) {
+        		if (splitUserInput.length > 1) {
+        			System.out.print("Error processing: " + userInput + "\n");
+        		} else {
         		dontQuit = false;
+        		}
         	} else if (splitUserInput[splitIndex].equals("show")) {
-        		Critter.displayWorld();
+        		if (splitUserInput.length > 1) {
+        			System.out.print("Error processing: " + userInput + "\n");
+        		} else {
+        			Critter.displayWorld();
+        		}
         	} else if (splitUserInput[splitIndex].equals("step")) {
-        		splitIndex++;
-        		if (splitUserInput.length == 1) { Critter.worldTimeStep(); }
-        		else if (splitUserInput.length == 2) {
-        			try{
-        				int stepCount = Integer.parseInt(splitUserInput[splitIndex]);
-        				for (int i = 0; i < stepCount; i++) {
-        					Critter.worldTimeStep();
-        				}
-        			} catch (Exception e) {
-        				System.out.println("Error processing: " + userInput);
+        		if (splitUserInput.length > 2) {
+        			System.out.print("Error processing: " + userInput + "\n");
+        		} else {
+	        		splitIndex++;
+	        		Critter.worldTimeStep();
+	        		if (splitUserInput.length > 1) {
+	        			int stepCount = Integer.parseInt(splitUserInput[splitIndex]);
+	        			for (int i = 0; i < stepCount; i++) {
+	        				Critter.worldTimeStep();
+	        			}
+	        		}
+        		}
+        	} else if (splitUserInput[splitIndex].equals("seed")) {
+        		if (splitUserInput.length > 2) {
+        			try {
+		        		splitIndex++;
+		        		long seedNumber = Long.valueOf(splitUserInput[splitIndex]); 
+		        		Critter.setSeed(seedNumber);
+        			} catch (Exception e1) {
+            			System.out.print("Error processing: " + userInput + "\n");
         			}
         		}
-        		else { System.out.println("Error processing: " + userInput); }
-        	} else if (splitUserInput[splitIndex].equals("seed")) {
-        		splitIndex++;
-        		long seedNumber = Long.valueOf(splitUserInput[splitIndex]);
-        		Critter.setSeed(seedNumber);
+        		
         	} else if (splitUserInput[splitIndex].equals("make")) {
         		splitIndex++;
         		String className = new String(splitUserInput[splitIndex]);
@@ -114,8 +128,13 @@ public class Main {
         			try {
 	            		String rawCount = new String(splitUserInput[splitIndex]);
 	            		int count = Integer.parseInt(rawCount);
-	            		for (int i = 0; i < count; i++)
-	            			Critter.makeCritter(className);
+	            		if (count < 0) {
+	            			System.out.print("Error processing: " + userInput + "\n");
+	            		} else {
+	            			for (int i = 0; i < count; i++)
+		            			Critter.makeCritter(className);
+	            		}
+	            		
         			} catch (InvalidCritterException e1) {
         				//System.out.println(e1.toString());
         				System.out.print("Error processing: " + userInput + "\n");
