@@ -301,6 +301,7 @@ public abstract class Critter {
 	 * Clear the world of all critters, dead and alive
 	 */
 	public static void clearWorld() {
+		CritterWorld.clearCritterWorld();
 	}
 	
 	/**
