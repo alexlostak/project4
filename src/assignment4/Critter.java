@@ -62,6 +62,12 @@ public abstract class Critter {
 		return;
 	}
 	
+	/**
+	 * Determines and direction of movement for a critter calling walk or run and moves them by the specified distance (referred to
+	 * as speed) in the correct direction. This method minimizes code by sharing it between walk and run.
+	 * @param speed
+	 * @param direction
+	 */
 	private void move(int speed, int direction){
 			 if (direction == 0) { this.x_coord +=  speed; }
 		else if (direction == 1) { this.x_coord +=  speed; this.y_coord += -speed; }
@@ -83,9 +89,20 @@ public abstract class Critter {
 		//System.out.println("\tCritter y coordinate: " + this.y_coord);
 	}
 	
+	/**
+	 * Moves the critter by 1 space in one of 7 directions on the board. When a critter first moves during a time-step they 
+	 * are added to a set in CritterWorld. If the critter attempts to move again the list is checked and if the critter is 
+	 * present we only reduce the critter's energy. During encounters a critter may move but we have to make sure the current 
+	 * location is free, therefore we use the global boolean encounter_state to determine whether we have to check if the location is
+	 * taken or not. If the location is occupied we return the critter to its original location and deduct the energy.
+	 * @param direction
+	 */
 	protected final void walk(int direction) {
+		System.out.println(this.toString());
+		System.out.println("Moving");
 		if (!(encounter_state)){							// General call
 			if (!(CritterWorld.hasCritterMoved(this))) {
+				System.out.println("Has not moved yet");
 				move(1, direction);
 				CritterWorld.addMovedCritter(this);
 			}
@@ -106,6 +123,14 @@ public abstract class Critter {
 		}
 	}
 	
+	/**
+	 * Moves the critter by 2 spaces in one of 7 directions on the board. When a critter first moves during a time-step they 
+	 * are added to a set in CritterWorld. If the critter attempts to move again the list is checked and if the critter is 
+	 * present we only reduce the critter's energy. During encounters a critter may move but we have to make sure the current 
+	 * location is free, therefore we use the global boolean encounter_state to determine whether we have to check if the location is
+	 * taken or not. If the location is occupied we return the critter to its original location and deduct the energy.
+	 * @param direction
+	 */
 	protected final void run(int direction) {
 		if (!(encounter_state)){
 			if (!(CritterWorld.hasCritterMoved(this))) {
@@ -128,6 +153,14 @@ public abstract class Critter {
 		}
 	}
 	
+	/**
+	 * This method determines whether the critter produces a child. If the critter calls this method and has energy
+	 * greater than or equal to Params.min_reproduce_energy, we update the child (given by offspring) by splitting 
+	 * the energy (round up child, round down parent), place the offspring adjacent to the parent given direction, 
+	 * and add the child to the newbornCritter list in CritterWorld to be added at the end of the time-step.
+	 * @param offspring
+	 * @param direction
+	 */
 	protected final void reproduce(Critter offspring, int direction) {
 		if (this.energy < Params.min_reproduce_energy){ return; }
 		//Energy
@@ -298,47 +331,73 @@ public abstract class Critter {
 		}
 	}
 	
+	/**
+	 * Calculates the key for each critter based on it's location for adding and accessing it from postionLog for 
+	 * resolving encounters.
+	 * @return
+	 */
 	private String getPositionKey() {
 		int x = x_coord;
 		int y = y_coord;
 		return (Integer.toString(x) + Integer.toString(y));
 	}
 	
+	/**
+	 * Sets the key for the critter passed (Critter c) and adds it to the positionLog for searching for encounters and 
+	 * resolving them. Returns the updated list.
+	 * @param c
+	 * @param positionLog
+	 * @return
+	 */
 	private static ArrayList<Critter> getPositionCritterArray (Critter c, Map<String, ArrayList<Critter>> positionLog) {
 		String positionKey = c.getPositionKey();
 		ArrayList<Critter> positionList = positionLog.get(positionKey);
 		return positionList;
 	}
 	
+	/**
+	 * Takes the passed set and removes all critters who are dead (energy <= 0). Also subtracts rest energy.
+	 * @param critters
+	 */
 	private static void removeWorldDead(Set<Critter> critters) {
 		Iterator<Critter> worldIt = critters.iterator();
-		//iterate through world
-			//check if dead
-			//if dead remove from world
-		
-		while (worldIt.hasNext()) {
+		while (worldIt.hasNext()) {								// Iterate through world
 			Critter c = (Critter) worldIt.next();
-			//may need to subtract energy from actual critter
-			int totalEnergy = c.energy - Params.rest_energy_cost;
-			if(totalEnergy <= 0) {
-				worldIt.remove();
+			c.energy = c.energy - Params.rest_energy_cost;		// Subtract rest energy
+			if(c.energy <= 0) {									// Check if dead
+				worldIt.remove();								// Remove from worl if dead
 			}
 		}
-		//System.out.println("\tCritters Removed: " + population_change);
 	}
-
+	
+	/**
+	 * Uses the passed ArrayList size to determine if there is an encounter to resolve. If the size is greater than 1
+	 * (meaning there is more than one critter with the same position) then we return true to handleEncounters and proceed
+	 * to resolve the encounter. Otherwise false and continue through positions.
+	 * @param positionCritterArray
+	 * @return
+	 */
 	private static boolean hasEncounter(ArrayList<Critter> positionCritterArray) {
 		if (positionCritterArray.size() > 1) {
 			return true;
 		}
 		return false;
 	}
-		
+	
+	/**
+	 * 
+	 * @param loser
+	 */
 	private void winEncounter(Critter loser) {
 		energy += loser.energy / 2;
 		return;
 	}
 	
+	/**
+	 * 
+	 * @param positionKey
+	 * @return
+	 */
 	private boolean ranFromFight(String positionKey) {
 		String newKey = getPositionKey();
 		if (newKey.equals(positionKey))
@@ -346,6 +405,10 @@ public abstract class Critter {
 		return true;
 	}
 	
+	/**
+	 * 
+	 * @param critters
+	 */
 	private static void resolveEncounter(ArrayList<Critter> critters) {
 		String currentPositionKey = critters.get(0).getPositionKey();
 			while (critters.size() > 1) {

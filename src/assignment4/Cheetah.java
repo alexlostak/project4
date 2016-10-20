@@ -13,12 +13,16 @@ public class Cheetah extends Critter {
 	
 	@Override
 	public void doTimeStep() {
-		run(6);
+		walk(6);
+		walk(6);
 	}
 
 
 
 	@Override
-	public boolean fight(String not_used) { return true; }
+	public boolean fight(String not_used) { 
+		run(2);
+		return true; 
+	}
 	
 }

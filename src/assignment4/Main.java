@@ -91,26 +91,26 @@ public class Main {
         		}
         	} else if (splitUserInput[splitIndex].equals("show")) {
         		if (splitUserInput.length > 1) {
-        			System.out.print("Error processing: " + userInput + "\n");
+        			System.out.println("Error processing: " + userInput);
         		} else {
         			Critter.displayWorld();
         		}
         	} else if (splitUserInput[splitIndex].equals("step")) {
         		if (splitUserInput.length > 2) {
-        			System.out.print("Error processing: " + userInput + "\n");
+        			System.out.println("Error processing: " + userInput);
         		} else {
 	        		splitIndex++;
-	        		//Critter.worldTimeStep();
 	        		if (splitUserInput.length > 1) {
-//	        			try {
+	        			try {
 		        			int stepCount = Integer.parseInt(splitUserInput[splitIndex]);
+		        			if (stepCount < 1) { System.out.println("Error processing: " + userInput); }
 		        			for (int i = 0; i < stepCount; i++) {
 		        				Critter.worldTimeStep();
 		        			}
-//	        			} catch (Exception e1) {
-//	        				System.out.println(e1.toString());
-//	        				System.out.print("Error processing: " + userInput + "\n");
-//	        			}
+	        			} catch (Exception e1) {
+	        				//System.out.println(e1.toString());
+	        				System.out.println("Error processing: " + userInput);
+	        			}
 	        		} else {
 	        			Critter.worldTimeStep();
 	        		}
