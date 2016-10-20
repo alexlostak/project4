@@ -64,6 +64,15 @@ public class CritterWorld {
 		return myCritters;
 	}
 	
+
+	/**
+	 * Get set of all newborn critters
+	 * @return Set<Critter> newbornCritters
+	 */
+	public static Set<Critter> getBabyList(){
+		return newbornCritters;
+	}
+	
 	/**
 	 * Adds Critter to set of newborn Critters to be added to world at end of time step
 	 * @param Critter c the critter to be added to the world
@@ -104,4 +113,4 @@ public class CritterWorld {
 	public static boolean hasCritterMoved(Critter c){
 		return movedCritters.contains(c);
 	}
-}
+}	

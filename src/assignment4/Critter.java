@@ -131,6 +131,7 @@ public abstract class Critter {
 			this.energy -= Params.run_energy_cost;
 		}
 		else if (encounter_state){
+			System.out.println("In run()");
 			int xTemp = this.x_coord;
 			int yTemp = this.y_coord;
 			move(2, direction);
@@ -279,7 +280,9 @@ public abstract class Critter {
 		 * implemented for grading tests to work.
 		 */
 		protected static List<Critter> getPopulation() {
-			return population;
+			Set<Critter> critters = CritterWorld.getCritterList();
+			List<Critter> list = new ArrayList<Critter>(critters);
+			return list;
 		}
 		
 		/*
@@ -289,7 +292,9 @@ public abstract class Critter {
 		 * at either the beginning OR the end of every timestep.
 		 */
 		protected static List<Critter> getBabies() {
-			return babies;
+			Set<Critter> critters = CritterWorld.getBabyList();
+			List<Critter> list = new ArrayList<Critter>(critters);
+			return list;
 		}
 	}
 
@@ -368,7 +373,7 @@ public abstract class Critter {
 	}
 	
 	/**
-	 * 
+	 * Give half the energy of the loser to the victor of each encounter.
 	 * @param loser
 	 */
 	private void winEncounter(Critter loser) {
@@ -377,7 +382,8 @@ public abstract class Critter {
 	}
 	
 	/**
-	 * 
+	 * We check to see if a critter attempted to run from a fight by comparing a new position key and the 
+	 * old key.
 	 * @param positionKey
 	 * @return
 	 */
@@ -389,7 +395,7 @@ public abstract class Critter {
 	}
 	
 	/**
-	 * 
+	 * Resolve encounters.
 	 * @param critters
 	 */
 	private static void resolveEncounter(ArrayList<Critter> critters) {
@@ -442,6 +448,7 @@ public abstract class Critter {
 			}
 			return;
 		}
+	
 	/**
 	 * Takes care of all instances where multiple Critters occupy the same position
 	 * @param Set<Critters> set of the critters in the CritterWorld
@@ -460,12 +467,20 @@ public abstract class Critter {
 			}
 		}	
 		
+		/**
+		 * 
+		 * @return
+		 */
 		private static Map getPositionLog() {
 			return positionLog;
 		}
-	
+
 		/**
-		 * Advances the entire CritterWorld forward one time step
+		 * Run a step. Each step involves resetting and updating any variables we use in other methods 
+		 * (e.g., postitionLog for handling encounters), invoking doTimeStep() for each critter in our
+		 * CritterWorld critter collection, remove dead critters, handle encounters, remove more dead
+		 * from encounters, add newborns to the world, clear any data structures we used for storing
+		 * data in other methods, and add the new algae.
 		 */
 		public static void worldTimeStep() {
 			Set<Critter> critters = CritterWorld.getCritterList();
@@ -496,10 +511,8 @@ public abstract class Critter {
 		CritterWorld.clearMovedCritters();		// Clear list of critters that have moved
 		createNewAlgae();						// Add new algae to the world
 	}
-	
-	/**
-	 * Displays the current state of the CritterWorld
-	*/
+
+
 	public static void displayWorld() {
 		Set<Critter> critterWorld = CritterWorld.getCritterList();
 		Critter[][] display = new Critter[Params.world_width + 2][Params.world_height + 2];
