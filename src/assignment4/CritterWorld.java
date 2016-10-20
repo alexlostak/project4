@@ -3,21 +3,18 @@ import java.util.*;
 
 public class CritterWorld {			
 	
-	private static Set<Critter> myCritters;
-	private static Set<Critter> newbornCritters;
-	private static Set<Critter> movedCritters;
-	private static int population; 
+	private static Set<Critter> myCritters = new HashSet<Critter>();
+	private static Set<Critter> newbornCritters = new HashSet<Critter>();
+	private static Set<Critter> movedCritters = new HashSet<Critter>();
+	private static int population;
 	private static int newborns;
 
 	/**
 	 * Initiate CritterWorld and all fields
 	 */
 	public static void makeCritterWorld() {
-		myCritters = new HashSet<Critter>();
-		newbornCritters = new HashSet<Critter>();
 		population = myCritters.size();
 		newborns = 0;
-		movedCritters = new HashSet<Critter>();
 		
 	}
 	
@@ -112,5 +109,9 @@ public class CritterWorld {
 	 */
 	public static boolean hasCritterMoved(Critter c){
 		return movedCritters.contains(c);
+	}
+	
+	public static void clearCritterWorld(){
+		myCritters.clear();
 	}
 }	
