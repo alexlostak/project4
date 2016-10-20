@@ -53,6 +53,10 @@ public class CritterWorld {
 		return myCritters;
 	}
 	
+	public static Set<Critter> getBabyList(){
+		return newbornCritters;
+	}
+	
 	public static void addNewborn(Critter c){
 		newbornCritters.add(c);						//Add newborn to temporary list
 		newborns += 1;
@@ -75,4 +79,4 @@ public class CritterWorld {
 	public static boolean hasCritterMoved(Critter c){
 		return movedCritters.contains(c);
 	}
-}
+}	

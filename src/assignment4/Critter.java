@@ -98,11 +98,11 @@ public abstract class Critter {
 	 * @param direction
 	 */
 	protected final void walk(int direction) {
-		System.out.println(this.toString());
-		System.out.println("Moving");
+		//System.out.println(this.toString());
+		//System.out.println("Moving");
 		if (!(encounter_state)){							// General call
 			if (!(CritterWorld.hasCritterMoved(this))) {
-				System.out.println("Has not moved yet");
+				//System.out.println("Has not moved yet");
 				move(1, direction);
 				CritterWorld.addMovedCritter(this);
 			}
@@ -110,6 +110,7 @@ public abstract class Critter {
 			//System.out.println(this.energy);
 		}
 		else if (encounter_state){							// Called for encounter
+				System.out.println("We're here");
 				int xTemp = this.x_coord;
 				int yTemp = this.y_coord;
 				move(1, direction);
@@ -140,6 +141,7 @@ public abstract class Critter {
 			this.energy -= Params.run_energy_cost;
 		}
 		else if (encounter_state){
+			System.out.println("In run()");
 			int xTemp = this.x_coord;
 			int yTemp = this.y_coord;
 			move(2, direction);
@@ -295,7 +297,9 @@ public abstract class Critter {
 		 * implemented for grading tests to work.
 		 */
 		protected static List<Critter> getPopulation() {
-			return population;
+			Set<Critter> critters = CritterWorld.getCritterList();
+			List<Critter> list = new ArrayList<Critter>(critters);
+			return list;
 		}
 		
 		/*
@@ -305,7 +309,9 @@ public abstract class Critter {
 		 * at either the beginning OR the end of every timestep.
 		 */
 		protected static List<Critter> getBabies() {
-			return babies;
+			Set<Critter> critters = CritterWorld.getBabyList();
+			List<Critter> list = new ArrayList<Critter>(critters);
+			return list;
 		}
 	}
 
@@ -385,7 +391,7 @@ public abstract class Critter {
 	}
 	
 	/**
-	 * 
+	 * Give half the energy of the loser to the victor of each encounter.
 	 * @param loser
 	 */
 	private void winEncounter(Critter loser) {
@@ -394,7 +400,8 @@ public abstract class Critter {
 	}
 	
 	/**
-	 * 
+	 * We check to see if a critter attempted to run from a fight by comparing a new position key and the 
+	 * old key.
 	 * @param positionKey
 	 * @return
 	 */
@@ -406,7 +413,7 @@ public abstract class Critter {
 	}
 	
 	/**
-	 * 
+	 * Resolve encounters.
 	 * @param critters
 	 */
 	private static void resolveEncounter(ArrayList<Critter> critters) {
@@ -469,6 +476,12 @@ public abstract class Critter {
 			return;
 		}
 		
+		/**
+		 * The first phase of handling encounters. If from the data we collected from the beginning of 
+		 * worldTimeStep() we have an encounter at a location we proceed to resolve the encounter.
+		 * When all encounters are resolved we return and continue with the rest of worldTimeStep().
+		 * @param critters
+		 */
 		public static void handleEncounters (Set critters) {
 			Iterator worldIt = critters.iterator();
 			while (worldIt.hasNext()) {
@@ -480,10 +493,21 @@ public abstract class Critter {
 			}
 		}	
 		
+		/**
+		 * 
+		 * @return
+		 */
 		private static Map getPositionLog() {
 			return positionLog;
 		}
-	
+		
+		/**
+		 * Run a step. Each step involves resetting and updating any variables we use in other methods 
+		 * (e.g., postitionLog for handling encounters), invoking doTimeStep() for each critter in our
+		 * CritterWorld critter collection, remove dead critters, handle encounters, remove more dead
+		 * from encounters, add newborns to the world, clear any data structures we used for storing
+		 * data in other methods, and add the new algae.
+		 */
 		public static void worldTimeStep() {
 			Set<Critter> critters = CritterWorld.getCritterList();		// Create an array from our current list of Critters
 			Iterator<Critter> worldIt = critters.iterator();
@@ -504,8 +528,7 @@ public abstract class Critter {
 					positionLog.put(positionKey, new ArrayList<Critter>());
 				}
 			}
-		removeWorldDead(critters);
-				
+		removeWorldDead(critters);	
 		encounter_state = true;
 		handleEncounters(critters);
 		encounter_state = false;
@@ -515,7 +538,10 @@ public abstract class Critter {
 		createNewAlgae();						// Add new algae to the world
 	}
 	
-
+	/**
+	 * ???
+	 * @param rowLength
+	 */
 	private static void printRowBorder(int rowLength) {
 		for (int i = 0; i < rowLength; i++) {
 			if (i == 0) {
@@ -527,9 +553,12 @@ public abstract class Critter {
 				System.out.print("-");
 			};
 		}
-		return;
-		
+		return;		
 	}
+	
+	/**
+	 * Creates the border of the world and places every critter within the world.
+	 */
 	public static void displayWorld() {
 		Set<Critter> critterWorld = CritterWorld.getCritterList();
 		int displayLength = (Params.world_height + 2) * (Params.world_width + 2);
