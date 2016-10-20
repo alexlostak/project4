@@ -6,14 +6,14 @@ public class CritterWorld {
 	private static Set<Critter> myCritters;
 	private static Set<Critter> newbornCritters;
 	private static Set<Critter> movedCritters;
-	private static int population;
+	private static int population; 
 	private static int newborns;
 
 	
 	public static void makeCritterWorld() {
 		myCritters = new HashSet<Critter>();
-		population = 0;
 		newbornCritters = new HashSet<Critter>();
+		population = myCritters.size();
 		newborns = 0;
 		movedCritters = new HashSet<Critter>();
 		//stageOneInit();
@@ -41,14 +41,13 @@ public class CritterWorld {
 	}
 	//Adds critter to set
 	public static void addCritter(Critter c){
-		myCritters.add(c);				//add critter					
-		population += 1;				//increase tag count
+		myCritters.add(c);				//add critter	
 	}
 	
 	public static void removeCritter(Critter c){
 		myCritters.remove(c);
-		population -= 1;
 	}
+	
 	
 	public static Set<Critter> getCritterList(){
 		return myCritters;
@@ -61,10 +60,8 @@ public class CritterWorld {
 	
 	public static void addNewbornsToPop(){
 		myCritters.addAll(newbornCritters);			//Time to add newborns to pop
-		newbornCritters.clear(); //Clear newborn list
-		population += newborns;						//Add newborns to population total
+		newbornCritters.clear();					//Clear newborn list
 		newborns = 0;								//Clear number of newborns
-		//System.out.println("Current population: " + population); //Population count check
 	}
 	
 	public static void addMovedCritter(Critter c){

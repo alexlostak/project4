@@ -283,8 +283,9 @@ public abstract class Critter {
 	}
 	
 	
-	/*
-	 * Method for refreshing new Algae critters in the world after every time step
+	/**
+	 * Adds Algae critters to the world every step. The amount of Algae added is
+	 * specified by Params.refresh_algae_count.
 	 */
 	private static void createNewAlgae(){
 		try{
@@ -309,8 +310,8 @@ public abstract class Critter {
 		return positionList;
 	}
 	
-	private static void removeWorldDead(Set critters) {
-		Iterator worldIt = critters.iterator();
+	private static void removeWorldDead(Set<Critter> critters) {
+		Iterator<Critter> worldIt = critters.iterator();
 		//iterate through world
 			//check if dead
 			//if dead remove from world
@@ -323,6 +324,7 @@ public abstract class Critter {
 				worldIt.remove();
 			}
 		}
+		//System.out.println("\tCritters Removed: " + population_change);
 	}
 
 	private static boolean hasEncounter(ArrayList<Critter> positionCritterArray) {
@@ -420,8 +422,8 @@ public abstract class Critter {
 		}
 	
 		public static void worldTimeStep() {
-			Set critters = CritterWorld.getCritterList();		// Create an array from our current list of Critters
-			Iterator worldIt = critters.iterator();
+			Set<Critter> critters = CritterWorld.getCritterList();		// Create an array from our current list of Critters
+			Iterator<Critter> worldIt = critters.iterator();
 			positionLog.clear();
 			positionLog = new HashMap<String, ArrayList<Critter>>();
 			while(worldIt.hasNext()) {
@@ -439,8 +441,8 @@ public abstract class Critter {
 					positionLog.put(positionKey, new ArrayList<Critter>());
 				}
 			}
-		removeWorldDead(critters);	
-			//deal with encounter
+		removeWorldDead(critters);
+				
 		encounter_state = true;
 		handleEncounters(critters);
 		encounter_state = false;

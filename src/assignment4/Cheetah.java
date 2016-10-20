@@ -13,7 +13,7 @@ public class Cheetah extends Critter {
 	
 	@Override
 	public void doTimeStep() {
-		
+		run(6);
 	}
 
 

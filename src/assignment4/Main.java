@@ -100,7 +100,7 @@ public class Main {
         			System.out.print("Error processing: " + userInput + "\n");
         		} else {
 	        		splitIndex++;
-	        		Critter.worldTimeStep();
+	        		//Critter.worldTimeStep();
 	        		if (splitUserInput.length > 1) {
 //	        			try {
 		        			int stepCount = Integer.parseInt(splitUserInput[splitIndex]);
