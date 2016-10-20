@@ -184,7 +184,7 @@ public abstract class Critter {
 	 */
 	
 	public static void makeCritter(String critter_class_name) throws InvalidCritterException {
-		try{
+		try{ 
 			Class<?> className = Class.forName(myPackage + "." + critter_class_name);
 			Critter newCritter = (Critter) className.newInstance();
 			newCritter.energy = Params.start_energy;
@@ -350,6 +350,7 @@ public abstract class Critter {
 		Iterator<Critter> worldIt = critters.iterator();
 		while (worldIt.hasNext()) {								// Iterate through world
 			Critter c = (Critter) worldIt.next();
+			System.out.println("Current Energy: " + c.energy);
 			c.energy = c.energy - Params.rest_energy_cost;		// Subtract rest energy
 			if(c.energy <= 0) {									// Check if dead
 				worldIt.remove();								// Remove from worl if dead
@@ -489,6 +490,7 @@ public abstract class Critter {
 			while(worldIt.hasNext()) {
 				Critter c = (Critter) worldIt.next();
 				c.doTimeStep();
+				if (c.energy <= 0) {}
 				String positionKey = c.getPositionKey();
 				ArrayList<Critter> positionList = positionLog.get(positionKey);
 				if (positionList != null) {
@@ -498,10 +500,10 @@ public abstract class Critter {
 					//add critter with hashcode of position
 					positionList = new ArrayList<Critter>();
 					positionList.add(c);
-					positionLog.put(positionKey, new ArrayList<Critter>());
+					positionLog.put(positionKey, positionList);
 				}
 			}
-		removeWorldDead(critters);
+		//removeWorldDead(critters);
 		encounter_state = true;
 		handleEncounters(critters);
 		encounter_state = false;

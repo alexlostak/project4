@@ -45,7 +45,7 @@ public class CritterWorld {
 	 * @param c the critter to be added to the world
 	 */
 	public static void addCritter(Critter c){
-		myCritters.add(c);					
+		myCritters.add(c);
 	}
 	
 	/**
