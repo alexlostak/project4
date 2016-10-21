@@ -146,7 +146,6 @@ public class Main {
 		            		
 	        			} catch (InvalidCritterException e1) {
 	        				System.out.print("error processing: " + userInput + "\n");
-	        				break;
 	        			} catch (Exception e2) {
 	        				System.out.print("error processing: " + userInput + "\n");
 	        			}
