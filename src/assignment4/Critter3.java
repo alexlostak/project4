@@ -2,8 +2,8 @@ package assignment4;
 
 import assignment4.Critter;
 
-public class Lion  extends Critter {
-	public String toString() { return "L"; }
+public class Critter3  extends Critter {
+	public String toString() { return "3"; }
 	
 	public boolean fight(String not_used) { 
 		

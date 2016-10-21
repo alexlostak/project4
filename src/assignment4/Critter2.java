@@ -1,13 +1,13 @@
 package assignment4;
 
-public class Cheetah extends Critter {
+public class Critter2 extends Critter {
 	
 	@Override
-	public String toString() { return "~"; }
+	public String toString() { return "2"; }
 	
 	
 	
-	public Cheetah() {
+	public Critter2() {
 		
 	}
 	

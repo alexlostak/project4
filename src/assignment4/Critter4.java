@@ -1,13 +1,13 @@
 package assignment4;
 
-public class Bunny extends Critter {
-	
+public class Critter4 extends Critter{
+
 	@Override
-	public String toString() { return "^"; }
+	public String toString() { return "4"; }
 	
 	
 	
-	public Bunny() {
+	public Critter4() {
 		
 	}
 	
@@ -22,5 +22,5 @@ public class Bunny extends Critter {
 		if (opponent.equals("Algae")) { return true; }
 		else { return false; }
 	}
-
+	
 }
