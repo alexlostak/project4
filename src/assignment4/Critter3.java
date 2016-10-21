@@ -1,7 +1,8 @@
 package assignment4;
 
-import assignment4.Critter;
+
 /*
+ * Alex Lostak ajl3287
  * Meet the Lion. The king of the jungle he stakes his claim and does not let it go.
  * Walking back and forth across his spot he paces, willing to tear apart anything 
  * that comes his way. Killed will track the total kills the lion gets.

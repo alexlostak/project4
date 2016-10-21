@@ -1,5 +1,6 @@
 package assignment4;
 /*
+ * Alex Lostak ajl3287
  * This Critter is the Peaceful Wanderer. A man among beasts his only duty is to wander.
  * He continues straight in one direction, never fighting, only eating the Algae he comes across.
  * Shrubberies Acquired will show how many Algae the Peaceful Wanderer has eaten. 
